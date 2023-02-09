@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:mqtt="http://www.springframework.org/schema/integration/mqtt"
+	xmlns:int-mqtt="http://www.springframework.org/schema/integration/mqtt"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/mqtt http://www.springframework.org/schema/integration/mqtt/spring-integration-mqtt-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.3.xsd">
+	
+	<!-- 引入配置文件:classpath等同于src目录,两种配置方式
+	<context:property-placeholder location="classpath:mqtt.properties"  ignore-unresolvable="true" />
+	file:C:/conf/mqtt.properties
+	 -->
+	 <!--file:C:/conf/mqtt.properties  -->
+	<context:property-placeholder location="file:${global.config.path}/mqtt.properties" 
+		ignore-unresolvable="true" />
+		
+	<!-- mqtt客户端订阅消息 -->
+	<bean id="clientFactory" class="org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory">
+		<property name="userName" value="${broker.userName}"/>
+		<property name="password" value="${broker.password}"/>
+		<property name="connectionTimeout" value="30"></property>
+		<property name="keepAliveInterval" value="60"></property>
+	</bean>
+
+	<!-- 
+	消息适配器 org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter 
+	org.springframework.messaging.MessageChannel
+	org.springframework.integration.core.MessageChannel
+	org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler
+	DefaultPahoMessageConverter
+	-->
+	<!-- 消息转换器
+	<bean id="myConverter" class="org.springframework.integration.mqtt.support.DefaultPahoMessageConverter"></bean>
+	 -->
+	 
+	<int-mqtt:message-driven-channel-adapter
+	id="mqttInbound" client-id="client" url="${broker.host}"
+	topics=""
+	qos="1" client-factory="clientFactory" auto-startup="true"
+	send-timeout="12" recovery-interval="10000" channel="startCase" />
+	
+	<!-- 
+	<int:channel id="startCase" />
+	 -->
+	
+	<!-- 对接收消息进行过滤 @tstamp + ' ' + headers.get('mqtt_topic') + ': ' + payload.toString() + @newline
+	<int:transformer id="convert"
+        input-channel="startCase"
+        expression="payload.toString() + headers.get('mqtt_topic')"
+		output-channel="toMqttService" />
+	 -->
+	 	
+	<!-- 方案一 -->
+	<int:service-activator id="startCaseService"
+		input-channel="startCase" ref="mqttCaseService" method="startCase"/>
+	
+	<!-- 方案二   id="toMqttService" channel="toMqttService"
+	<int:outbound-channel-adapter id="toMqttService"  
+		ref="mqttCaseService" 
+		method="startCase" />
+	-->
+	
+	<bean id="mqttCaseService" class="com.vguang.service.impl.MqttService2"></bean>
+	 
+	<!-- mqtt服务端发送消息 -->
+	<bean id="serverFactory"
+		class="org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory">
+		<property name="userName" value="${broker.userName}" />
+		<property name="password" value="${broker.password}" />
+		<property name="serverURIs">
+			<array>
+				<value>${broker.host}</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="mqtt" class="org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler">
+		<constructor-arg name="clientId" value="server"></constructor-arg>
+		<constructor-arg name="clientFactory" ref="serverFactory"></constructor-arg>
+	</bean>
+	
+	<!-- MqttManager -->
+	<bean id="mqttManager" class="com.vguang.utils.MqttManager">
+		<property name="mqttService" ref="mqtt"></property>
+	</bean>
+	
+</beans>

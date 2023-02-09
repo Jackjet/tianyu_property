@@ -1,0 +1,55 @@
+page{
+  font-family: 'SourceHanSansCN-Normal';
+  background-color: #F5F6FD;
+}
+
+.top-cover{
+  width: 750rpx;
+  height: 260rpx;
+  overflow: hidden;
+  position: relative;
+  background-color: #5537FB;
+}
+.family{
+  width: 120rpx;
+  height: 62rpx;
+  font-size: 24rpx;
+  color: #fff;
+  text-align: center;
+  margin: 142rpx auto;
+}
+.level{
+  font-size: 24rpx;
+}
+.cheng{
+  font-size: 14rpx;
+  margin-top: 20rpx;
+}
+.code{
+  width: 350rpx;
+  height: 334rpx;
+  margin: 123rpx auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 28rpx;
+  background-color:#fff;
+}
+.code-img{
+  width: 310rpx;
+  height: 310rpx;
+}
+.code-img image{
+  width: 100%;
+  height: 100%;
+}
+.share{
+  width: 305rpx !important;
+  height: 68rpx !important;
+  font-size: 24rpx;
+  text-align: center;
+  color: #fff;
+  margin:auto;
+  background-color: #C8BF32;
+  border-radius: 30rpx;
+}

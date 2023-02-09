@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.ICardDao">
+
+	<select id="queryCountByNumber" resultType="Integer">
+		SELECT COUNT(*) FROM
+		Card WHERE CardNumber =#{0}
+	</select>
+
+	<insert id="insertCard">
+		INSERT INTO Card (
+		CardNumber,
+		CardType,
+		CardSonType,
+		CardState,
+		CardStartTime,
+		CardEndTime,
+		FullName,
+		Phone,
+		Email,
+		InputTime,
+		Power,
+		OldCardID,
+		PersonIdentification
+		)
+		VALUES
+		(
+		#{0},
+		#{1},
+		#{2},
+		#{3},
+		#{4},
+		#{5},
+		#{6},
+		#{7},
+		#{8},
+		NOW(),
+		#{9},
+		#{10},
+		#{11}
+		)
+	</insert>
+
+	<insert id="addCard" useGeneratedKeys="true" keyProperty="CardID">
+		INSERT INTO Card (
+		PersonID,
+		CardNumber,
+		CardType,
+		CardSonType,
+		CardState,
+		CardStartTime,
+		CardEndTime,
+		FullName,
+		Phone,
+		Email,
+		InputTime,
+		Power,
+		PersonIdentification
+		)
+		VALUES
+		(
+		#{PersonID},
+		#{CardNumber},
+		#{CardType},
+		#{CardSonType},
+		#{CardState},
+		now(),
+		#{CardEndTime},  
+		#{FullName},
+		#{Phone},
+		#{Email},
+		NOW(),
+		#{Power},
+		#{PersonIdentification},
+		)
+
+	</insert>
+	
+
+	<update id="updateCard">
+
+		UPDATE Card
+		SET
+			CardNumber=#{0},
+			CardType=#{1},
+			CardSonType=#{2},
+			CardState=#{3},
+			CardStartTime=now(),
+			CardEndTime=#{5},
+			FullName=#{6},
+			Phone=#{7},
+			Email=#{8},
+			PersonID=#{10}
+		WHERE
+		CardID = #{9}
+
+	</update>
+
+	<sql id="where_card">
+		<where>
+			<if test="CardNumber != null and '' != CardNumber">
+				AND c.CardNumber = #{CardNumber}
+			</if>
+			<if test="CardType != null">
+				AND c.CardType = #{CardType}
+			</if>
+			<if test="CardSonType != null">
+				AND c.CardSonType = #{CardSonType}
+			</if>
+			<if test="FullName != null and '' != FullName">
+				AND p.FullName = #{FullName}
+			</if>
+			<if test="Phone != null and '' != Phone">
+				AND p.PhoneNum = #{Phone}
+			</if>
+			<if test="Power != null and '' != Power">
+				AND c.Power = #{Power}
+			</if>
+			<if test="CardState != null and '' != CardState">
+				AND c.CardState = #{CardState}
+			</if>
+			<if test="HouseNum != null and '' != HouseNum">
+				AND c.HouseNum = #{HouseNum}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryCountCards" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		Card c
+		LEFT JOIN Person p ON p.PersonID = c.PersonID
+		<include refid="where_card" />
+	</select>
+
+	<select id="queryCards" resultType="HashMap">
+		SELECT
+		c.CardID,
+		c.CardNumber,
+		c.CardType,
+		c.CardSonType,
+		c.FullName,
+		c.Phone,
+		c.CardState,
+		c.PersonID
+		FROM
+		Card c
+LEFT JOIN Person p ON p.PersonID = c.PersonID
+		<include refid="where_card" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+
+	<select id="queryCardIDbyNumber" resultType="Integer">
+		SELECT CardID FROM Card WHERE CardNumber = #{0} AND CardState =#{1}
+	</select>
+	
+	<select id="queryPersonIDbyNumber" resultType="Integer">
+		SELECT PersonID FROM Card WHERE CardNumber = #{0} AND CardState =#{1}
+	</select>
+
+	<select id="queryCardTypeByID" resultType="Integer">
+		SELECT CardType FROM Card WHERE CardID = #{0}
+	</select>
+
+	<select id="queryCardSonTypeByID" resultType="Integer">
+		SELECT CardSonType FROM Card WHERE CardID = #{0}
+	</select>
+	
+	<update id="updatePowerByCardID">
+	UPDATE Card SET Power = #{1} WHERE CardID =#{0}
+	</update>
+	
+	<select id="queryCountOrdCardID" resultType="Integer">
+	SELECT COUNT(*) FROM Card WHERE OldCardID = #{0}
+	</select>
+	<select id="queryCountCardIdByNumAndOrdCardID" resultType="Integer">
+	SELECT COUNT(*) FROM Card WHERE CardNumber = #{0} AND OldCardID = #{1}
+	</select>
+	
+	<select id="queryCountCardIdByPhone" resultType="Integer">
+	SELECT COUNT(*) FROM Card WHERE Phone = #{0}
+	</select>
+	
+	<delete id="delRuleByCardID">
+	DELETE FROM Rule WHERE CardID = #{0}
+	</delete>
+	
+	<select id="queryOldCardIDByCardID" resultType="String">
+	SELECT OldCardID FROM Card WHERE CardID = #{0}
+	</select>
+	
+	<delete id="delBlackListByCardID">
+	DELETE FROM BlackList WHERE CardID = #{0}
+	</delete>
+	
+	<delete id="delCardByCardID">
+	DELETE FROM Card WHERE CardID = #{0}
+	</delete>
+	
+	<select id="queryCardIDsByPersonID" resultType="Integer">
+	SELECT CardID FROM Card WHERE PersonID = #{0}
+	</select>
+	<select id="queryCardByNumber" resultType="com.vguang.eneity.Card">
+		SELECT * FROM Card where CardNumber=#{cardnumber}
+	</select>
+
+	<select id="queryCardTypeByCardNumber" resultType="Integer">
+		SELECT CardType FROM Card WHERE CardNumber = #{0}
+	</select>
+
+	<select id="queryCardNumberBypersonIDAndCardType" resultType="String">
+		SELECT CardNumber FROM Card where PersonID=#{0} and CardType=#{1}
+	</select>
+
+	<insert id="addCards">
+		INSERT INTO Card (
+			PersonID,CardNumber,CardType,CardSonType,CardState,CardStartTime,CardEndTime,FullName,Phone,Email,InputTime
+		)
+		VALUES
+			(
+				#{0},
+				#{1},
+				#{2},
+				#{3},
+				#{4},
+				now(),
+				#{6},
+				#{7},
+				#{8},
+				#{9},
+				now()
+
+
+			)
+	</insert>
+
+	<select id="queryCardByCardNumber" resultType="HashMap">
+		SELECT * FROM Card WHERE CardNumber = #{0}
+	</select>
+
+	<update id="updateCardTypeByCardID">
+		UPDATE Card SET CardType = 4 WHERE CardID =#{0}
+	</update>
+
+
+	<select id="queryC" resultType="HashMap">
+		SELECT CardNumber,FullName,Phone,PersonID,CardID FROM Card
+	</select>
+
+	<select id="queryCardIDByPersonID" resultType="Integer">
+		SELECT CardID FROM Card WHERE PersonID = #{0}
+	</select>
+</mapper>

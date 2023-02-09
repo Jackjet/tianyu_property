@@ -1,0 +1,45 @@
+<!--pages/edit_visitor/edit_visitor.wxml-->
+<view>
+  <view class="plate"></view>
+  <view class="form">
+    <view>
+      <span class="label">访客姓名：</span>
+      <input class="jinyong" type='input' model:value="{{name}}" maxlength='100' disabled placeholder="请输入访客姓名" />
+    </view>
+    <view>
+      <span class="label">来访时间：</span>
+      <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1"
+        bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+        <view class="tui-picker-detail">
+          {{dateTimeArray1[0][dateTime1[0]]}}-{{dateTimeArray1[1][dateTime1[1]]}}-{{dateTimeArray1[2][dateTime1[2]]}}
+          {{dateTimeArray1[3][dateTime1[3]]}}:{{dateTimeArray1[4][dateTime1[4]]}}
+        </view>
+      </picker>
+    </view>
+    <view>
+      <span class="label">结束时间：</span>
+      <picker mode="multiSelector" value="{{end_dateTime1}}" bindchange="changeDateTime_end"
+        bindcolumnchange="changeDateTimeColumn_end" range="{{end_dateTimeArray1}}">
+        <view class="tui-picker-detail">
+          {{end_dateTimeArray1[0][end_dateTime1[0]]}}-{{end_dateTimeArray1[1][end_dateTime1[1]]}}-{{end_dateTimeArray1[2][end_dateTime1[2]]}}
+          {{end_dateTimeArray1[3][end_dateTime1[3]]}}:{{end_dateTimeArray1[4][end_dateTime1[4]]}}
+        </view>
+      </picker>
+    </view>
+    <view>
+      <span class="label">访客手机：</span>
+      <input type='input' class="jinyong" disabled model:value="{{phone}}" maxlength='100' placeholder="请输入访客手机号" />
+    </view>
+    <view>
+      <span class="label">通行权限：</span>
+      <view>
+        <input type='input' class="jinyong" disabled wx:for="{{power}}" wx:for-item="item" value="{{item}}"
+          maxlength='100' placeholder="请输入访客手机号" />
+      </view>
+      <!-- <picker class="powerPicker" bindchange="bindPickerChange" value="{{index}}" range="{{objectArray}}"range-key="name">
+        <view class="picker">{{objectArray[index].name}}</view>
+      </picker> -->
+    </view>
+    <button type="primary" class="theSubmit" size="mini" bindtap="doSubmit">保存修改</button>
+  </view>
+</view>

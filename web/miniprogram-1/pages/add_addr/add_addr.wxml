@@ -1,0 +1,34 @@
+<!-- 头部背景颜色 -->
+<view class="top-back">
+<view>家庭组地址新增</view>
+</view>
+<!-- 表单盒子 -->
+<view class="form-box">
+<view class="form-content">
+<form bindsubmit="formSubmit">
+<view class="form-input">
+<view class="name">
+<span>家庭住址:</span>
+<span class="lang-e">End time</span>
+</view>
+<view class="input addr">
+<view class="addr-box">
+  <input name="dong" type="number"   style="font-size: 20rpx;" auto-focus></input>
+  <view>栋</view>
+</view>
+<view class="addr-box">
+  <input name="ceng" style="font-size: 20rpx;"  type="number" ></input>
+  <view>层</view>
+</view>
+<view class="addr-box">
+  <input name="hu"   style="font-size: 20rpx;" type="number" ></input>
+  <view>户</view>
+</view>
+</view>
+<view>
+</view>
+</view>
+<button class="sub sub-2" formSubmit formType="submit">确认提交</button>
+</form>
+</view>
+</view>

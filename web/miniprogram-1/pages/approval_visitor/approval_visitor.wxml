@@ -1,0 +1,95 @@
+<!--pages/approval_visitor/approval_visitor.wxml-->
+<view  class="top">
+<view class="top-box">
+<view class="image-box">
+<view class="image-box image-box-son">
+{{xing}}
+</view>
+</view>
+</view>
+<view class="name">
+  <span>访客姓名: {{name}}</span>
+</view>
+<!-- 按钮 -->
+<view class="top-btn">
+  <view class="pub quxiao" bindtap="doPendingRefuse">拒绝</view>
+  <view class="pub ty" bindtap="doPendingAgree">同意</view>
+</view>
+<!-- 按钮 -->
+</view>
+<view class="content-box">
+<view class="content-text">
+<view class="text-left">
+<span>来访时间 :</span>
+<span class="lang-en">Visiting time</span>
+</view>
+<view class="text-right">
+<span>{{startTime}}</span>
+</view>
+</view>
+<view class="content-text">
+<view class="text-left">
+<span>结束时间 :</span>
+<span class="lang-en">End time</span>
+</view>
+<view class="text-right">
+<span>{{endTime}}</span>
+</view>
+</view>
+<view class="content-text">
+<view class="text-left">
+<span>访客手机:</span>
+<span class="lang-en">Phone</span>
+</view>
+<view class="text-right">
+<span>{{phone}}</span>
+</view>
+</view>
+<view class="content-text" style="padding: 20rpx 0;">
+  <view class="text-left">
+    <span>通行权限:</span>
+    <span class="lang-en">Access right</span>
+  </view>
+<view class="text-right">
+  <input type='input' disabled wx:for="{{power}}"  wx:for-item="item" value="{{item}}" maxlength='100' placeholder="请输入访客手机号" />
+</view>
+</view>
+</view>
+<!-- <view>
+  <view class="title">
+    <view class="logo">小</view>
+    <h2>访客姓名：{{name}}</h2>
+    <view class="btn-box">
+      <button type="primary" class="theBtn" plain="true" size="mini" bindtap="toEdit">同意</button>
+      <button type="warn" class="theBtn" plain="true" size="mini" bindtap="doDelete">拒绝</button>
+    </view>
+  </view>
+  <view class="body">
+    <view>
+      <span class="label">来访时间：</span>
+      <input class="jinyong" type='input' disabled value="{{startTime}}" maxlength='100' placeholder="请输入访客手机号" />
+    </view>
+    <view>
+      <span class="label">结束时间：</span>
+      <input class="jinyong" type='input' disabled value="{{endTime}}" maxlength='100' placeholder="请输入访客手机号" />
+    </view>
+    <view>
+      <span class="label">访客手机：</span>
+      <input class="jinyong" type='input' disabled value="{{phone}}" maxlength='100' placeholder="请输入访客手机号" />
+    </view>
+    <view>
+      <span class="label">通行权限：</span>
+      <input class="{{isEdit ? 'vshow' : 'vhidden'}} jinyong" type='input' disabled value="{{power}}" maxlength='100' placeholder="请输入访客手机号" />
+      <picker class="powerPicker {{isEdit ? 'vhidden' : 'vshow'}}" bindchange="bindPickerChange" value="{{index}}" range="{{objectArray}}"range-key="name">
+        <view class="picker">{{objectArray[index].name}}</view>
+      </picker>
+    </view>
+    <span class="{{isEdit ? 'vshow' : 'vhidden'}}">
+      <button type="default" class="bigBtn" size="mini" bindtap="toEdit">修改权限</button>
+    </span>
+    <span class="{{isEdit ? 'vhidden' : 'vshow'}}">
+      <button type="primary" class="bigBtn" size="mini" bindtap="doEdit">保存修改</button>
+    </span>
+  </view>
+</view>
+ -->

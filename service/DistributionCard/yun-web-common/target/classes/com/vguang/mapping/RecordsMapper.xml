@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.IRecordsDao">
+
+
+	<sql id="where_OperationRecords">
+		<where>
+			<if test="CardNumber != null and '' != CardNumber">
+				AND c.CardNumber = #{CardNumber}
+			</if>
+			<if test="DeviceName != null and '' != DeviceName">
+				AND d.DeviceName = #{DeviceName}
+			</if>
+			<if test="State != null and '' != State">
+				AND r.State = #{State}
+			</if>
+		</where>
+	</sql>
+
+	
+	<select id="queryCountOperationRecords" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		Records r
+		LEFT JOIN Card c ON r.CardID = c.CardID
+		LEFT JOIN Card c2 ON r.OperatorID = c2.CardID
+		LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+<include refid="where_OperationRecords" />
+	</select>
+
+	<select id="queryOperationRecords" resultType="HashMap">
+		SELECT
+	r.RecordsID,
+	r.CardID,
+	c.CardNumber,
+	r.DeviceID,
+	d.DeviceName,
+	r.BlackLlistID,
+	r.State,
+	r.Time,
+	r.OperatorID,
+	c2.FullName AS OperationName
+FROM
+	Records r
+LEFT JOIN Card c ON r.CardID = c.CardID
+LEFT JOIN Card c2 ON r.OperatorID = c2.CardID
+LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+	<include refid="where_OperationRecords" />
+	GROUP BY RecordsID desc
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+	
+	
+		<sql id="where_blacklist">
+		<where>
+			<if test="CardNumber != null and '' != CardNumber">
+				AND c.CardNumber = #{CardNumber}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="queryCountblacklist" resultType="Integer">
+	SELECT
+	COUNT(*)
+FROM
+	BlackList bl
+LEFT JOIN Card c ON bl.CardID = c.CardID
+LEFT JOIN Card c2 ON bl.OperatorID = c2.CardID
+		<include refid="where_blacklist" />
+	</select>
+	
+	<select id="queryblacklist" resultType="HashMap">
+	SELECT
+	bl.BlackListID,
+	bl.CardID,
+	c.CardNumber,
+	bl.BlackTime,
+	bl.OperatorID,
+	c2.FullName AS OperationName
+FROM
+	BlackList bl
+LEFT JOIN Card c ON bl.CardID = c.CardID
+LEFT JOIN Card c2 ON bl.OperatorID = c2.CardID
+	<include refid="where_blacklist" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+	
+	
+	
+	<sql id="where_authpassrecord">
+		<where>
+			<if test="CardNumber != null and '' != CardNumber">
+				AND c.CardNumber = #{CardNumber}
+			</if>
+			<if test="DeviceName != null and '' != DeviceName">
+				AND d.DeviceName = #{DeviceName}
+			</if>
+			<if test="VerificationResult != null and '' != VerificationResult">
+				AND apr.VerificationResult = #{VerificationResult}
+			</if>
+			<if test="StartTime != null and '' != StartTime">
+				AND apr.StartTime  &gt; #{VerificationTime}
+			</if>
+			<if test="EndTime != null and '' != EndTime">
+				AND apr.EndTime &lt; #{VerificationTime}
+			</if>
+		</where>
+	</sql>
+			
+	<select id="queryCountauthpassrecord"  resultType="Integer">
+	SELECT
+	COUNT(*)
+FROM
+	AuthPassRecord apr
+LEFT JOIN Card c ON apr.CardID = c.CardID
+LEFT JOIN Device d ON apr.DeviceID = d.DeviceID
+	<include refid="where_authpassrecord" />
+	</select>
+
+	<select id="queryauthpassrecord" resultType="HashMap">
+	SELECT
+	apr.AuthPassRecordID,
+	apr.CardID,
+	c.CardNumber,
+	apr.DeviceID,
+	d.DeviceName,
+	apr.VerificationTime,
+	apr.VerificationResult
+FROM
+	AuthPassRecord apr
+LEFT JOIN Card c ON apr.CardID = c.CardID
+LEFT JOIN Device d ON apr.DeviceID = d.DeviceID
+	<include refid="where_authpassrecord" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+	
+	<insert id="insertBlackList" useGeneratedKeys="true" keyProperty="BlackListID">
+	INSERT INTO BlackList (
+	CardID,
+	BlackTime,
+	OperatorID
+)
+VALUES
+	(#{CardID}, NOW(), #{OperatorID})
+	
+	
+	</insert>
+	
+	<insert id="InsertRecords">
+	INSERT INTO Records (
+	CardID,
+	DeviceID,
+	BlackLlistID,
+	State,
+	Time,
+	OperatorID
+)
+VALUES
+	(#{0}, #{1}, #{2}, #{3}, NOW(), #{4})
+	
+	</insert>
+	
+	<delete id="deleteBlackListByCardID">
+	DELETE FROM BlackList WHERE CardID =#{0}
+	</delete>
+	
+	<delete id="delAuthPassRecordByCardID">
+	DELETE FROM AuthPassRecord WHERE CardID =#{0}
+	</delete>
+	
+	<delete id="delAuthPassRecordByDeviceID">
+	DELETE FROM AuthPassRecord WHERE DeviceID =#{0}
+	</delete>
+	
+	<delete id="delRecordsByDeviceID">
+	DELETE FROM Records WHERE DeviceID =#{0}
+	</delete>
+	
+	<delete id="delRecordsByCardID">
+	DELETE FROM Records WHERE CardID =#{0}
+	</delete>
+
+</mapper>

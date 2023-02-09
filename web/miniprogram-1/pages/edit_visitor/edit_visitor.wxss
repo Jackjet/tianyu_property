@@ -1,0 +1,55 @@
+/* pages/edit_visitor/edit_visitor.wxss */
+page {
+  background-color: #F5F6FF;
+}
+.plate {
+  height: 240rpx;
+  width: 100%;
+  background-color: #5537FB;
+}
+.form {
+  width: 80%;
+  position: absolute;
+  left: 10%;
+  top: 120rpx;
+  box-sizing: border-box;
+  padding: 20rpx 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  font-size: 30rpx;
+}
+.jinyong {
+  color: #999;
+}
+.form>view {
+  display: flex;
+  padding: 30rpx 0;
+  border-bottom: 1px solid #aaa;
+}
+.form .label {
+  line-height: 2;
+  position: relative;
+}
+.form .label::before {
+  content: '*';
+  color: #f00;
+  position: absolute;
+  left: -20rpx;
+  top: 6rpx;
+}
+.powerPicker,
+.datePicker,
+.timePicker {
+  line-height: 2;
+  margin-right: 20rpx;
+}
+.form .theSubmit {
+  display: block;
+  width: 60%;
+  background-color: #70C7C7;
+  padding: 10rpx 0;
+  margin: 70rpx auto 0;
+  font-size: 30rpx;
+  border-radius: 40rpx;
+  margin-bottom: 50rpx;
+}

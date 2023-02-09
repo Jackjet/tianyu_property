@@ -1,0 +1,135 @@
+<!-- 头部背景颜色 -->
+<view class="top-back">
+<view wx:if="{{power==2}}">成员登记</view>
+<view wx:else>户主登记</view>
+</view>
+<!-- 表单盒子 -->
+<view class="form-box">
+<view class="form-content">
+<form bindsubmit="formSubmit"  wx:if="{{power==2}}">
+<view class="form-input">
+<view class="name">
+<span>成员姓名 :</span>
+</view>
+<view class="input">
+  <input name="name" type="text" ></input>
+</view>
+<view>
+</view>
+</view>
+<view class="form-input">
+<view class="name">
+<span>手机号码 :</span>
+</view>
+<view class="input">
+  <input name="phone" type="number"  ></input>
+</view>
+<view>
+</view>
+</view>
+<view class="form-input">
+<view class="name">
+<span>用户邮箱:</span>
+</view>
+<view class="input email">
+  <input name="email" type="text" ></input>
+  <view class="xt">
+  可选填
+  </view>
+</view>
+<view>
+</view>
+</view>
+<button class="sub" formType="submit">确认提交</button>
+</form>
+<form  wx:else bindsubmit="formSubmit">
+  <view class="form-input">
+<view class="name">
+<span>户主姓名 :</span>
+</view>
+<view class="input">
+  <input name="name" type="text" ></input>
+</view>
+<view>
+</view>
+</view>
+<view class="form-input">
+<view class="name">
+<span>手机号码 :</span>
+</view>
+<view class="input">
+  <input name="phone" type="number" ></input>
+</view>
+<view>
+</view>
+</view>
+<view class="addr-flex">
+<view>家庭住址 :</view>
+</view>
+<view class="form-input" wx:for="{{formList}}">
+<view class="name">
+<span></span>
+<span class="lang-e"></span>
+</view>
+
+<view class="input addr">
+<view class="addr-box">
+  <input name="dong{{index}}" type="number" data-id="{{index}}"  data-attr="dong" bindinput="customerinput"></input>
+  <input type="hidden" bindinput="customerinput" name='dong_text0' hidden value="栋"></input>
+  <view>栋</view>
+</view>
+<view class="addr-box">
+  <input name="ceng{{index}}"  data-id='{{index}}' data-attr="ceng"  bindinput="customerinput" type="number" ></input>
+  <input type="hidden" hidden  name='ceng_text0' value="层"></input>
+  <view>层</view>
+</view>
+<view class="addr-box">
+  <input name="hu{{index}}"  data-id='{{index}}' data-attr="hu"  bindinput="customerinput" type="number" ></input>
+  <input type="hidden" name='hu_text0' hidden value="户"></input>
+  <view>户</view>
+</view>
+</view>
+<view>
+</view>
+</view>
+<view class="form-input">
+<view class="name">
+</view>
+<view class="input add-addr">
+<view class="addr-pos">
+<view class="del-addr">
+<block wx:if="{{formList.length>1}}">
+<view class="add-icon del-icon">
+  <image src="/static/images/zu79.png"></image>
+</view>
+<span bindtap="delAddr">删除</span>
+</block>
+</view>
+<view class="add-box">
+<view class="add-icon">
+<image src="/static/images/zu80.png"></image>
+</view>
+<view class="add-text" bindtap="additem">添加更多地址</view>
+</view>
+</view>
+</view>
+<view>
+</view>
+</view>
+<view class="form-input">
+<view class="name">
+<span>用户邮箱:</span>
+</view>
+<view class="input email">
+  <input name="email" type="text" ></input>
+  <view class="xt">
+  可选填
+  </view>
+</view>
+<view>
+</view>
+</view>
+<button class="sub sub-2" formSubmit formType="submit">确认提交</button>
+</form>
+</view>
+</view>

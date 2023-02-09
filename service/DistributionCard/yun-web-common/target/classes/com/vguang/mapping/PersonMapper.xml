@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.IPersonDao">
+
+	<select id="queryAllPersonidByGroupID" resultType="Integer">
+		SELECT
+		PersonID FROM UserGroup WHERE GroupID = #{0} AND PersonID IS NOT NULL
+	</select>
+
+
+	<sql id="where_person">
+		<where>
+			<if test="FullName != null and '' != FullName">
+				AND p.FullName = #{FullName}
+			</if>
+			<if test="PersonStatus != null and '' != PersonStatus">
+				AND p.PersonStatus = #{PersonStatus}
+			</if>
+			<if test="GroupID != null and '' != GroupID">
+				AND ug.GroupID = #{GroupID}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryCountPerson" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		Person p
+		LEFT JOIN UserGroup ug ON p.PersonID =
+		ug.PersonID
+		LEFT JOIN WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_person" />
+	</select>
+
+	<select id="queryPerson" resultType="HashMap">
+		SELECT
+		p.PersonID,
+		p.FullName,
+		p.Email,
+		p.PhoneNum,
+		p.InputTime,
+		p.PersonStatus,
+		ug.UserGroupID,
+		ug.GroupID,
+		ug.UserGroupName,
+		ug.GroupPower,
+		ug.`Status`,
+		ug.UserGroupName,
+		w.WxAvatarUrl
+		FROM
+		Person p
+		LEFT JOIN
+		UserGroup ug ON p.PersonID = ug.PersonID
+		LEFT JOIN WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_person" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+
+	<select id="queryPhoneByPersonID" resultType="String">
+		SELECT PhoneNum
+		FROM Person WHERE PersonID = #{0}
+	</select>
+
+	<update id="updatePersonStatusByPersonID">
+		UPDATE Person SET PersonStatus = #{0} WHERE PersonID
+		= #{1}
+	</update>
+
+	<select id="queryAccountIDByPersonID" resultType="Integer">
+		SELECT
+		AccountID FROM Account WHERE PersonID =#{0} LIMIT 1
+	</select>
+
+	<delete id="delUserGroupByPersonID">
+		DELETE FROM UserGroup WHERE PersonID =#{0}
+	</delete>
+
+	<delete id="delPersonByPersonID">
+		DELETE FROM Person WHERE PersonID =#{0}
+	</delete>
+
+	<update id="updatePersonByPersonID">
+		UPDATE Person
+		SET FullName = #{0},
+		Email = #{2},
+		PhoneNum = #{1},
+		PersonStatus =#{3}
+		WHERE
+		PersonID = #{4}
+	</update>
+
+	<select id="querypersondetails" resultType="HashMap">
+		SELECT
+		p.PersonID,
+		p.FullName,
+		p.Email,
+		p.PhoneNum,
+		p.InputTime,
+		p.PersonStatus,
+		ug.UserGroupID,
+		ug.GroupID,
+		ug.UserGroupName,
+		ug.GroupPower,
+		ug.`Status`,
+		ug.UserGroupName
+		FROM
+		Person p
+		LEFT JOIN
+		UserGroup ug ON p.PersonID =
+		ug.PersonID
+		WHERE p.PersonID = #{0}
+	</select>
+
+	<delete id="delUserGroupByUserGroupID">
+		DELETE FROM UserGroup WHERE UserGroupID =#{0}
+	</delete>
+
+	<delete id="delUserGroup">
+		DELETE FROM UserGroup WHERE GroupID =#{0}
+	</delete>
+
+	<update id="updateUserGroupByGroupID">
+		UPDATE UserGroup
+		SET UserGroupName = #{1},
+		UserGroupDesc = #{2}
+		WHERE
+		GroupID = #{0}
+
+	</update>
+
+
+	<sql id="where_group">
+		<where>
+			<if test="UserGroupName != null and '' != UserGroupName">
+				AND UserGroupName = #{UserGroupName}
+			</if>
+			<if test="ParentUserGroupID != null and '' != ParentUserGroupID">
+				AND ParentUserGroupID = #{ParentUserGroupID}
+			</if>
+			<if test="GroupPower != null and '' != GroupPower">
+				AND us.GroupPower=#{GroupPower}
+			</if>
+			<if test="PersonStatus != null and '' != PersonStatus">
+				AND p.PersonStatus= #{PersonStatus}
+			</if>
+			<if test="PhoneNum != null and '' != PhoneNum">
+				AND p.PhoneNum = #{PhoneNum}
+			</if>
+			<if test="FullName != null and '' != FullName">
+				AND p.PhoneNum = #{FullName}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryCountGroup" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		UserGroup us
+		LEFT JOIN Person p
+		on us.PersonID=p.PersonID
+		<include refid="where_group" />
+	</select>
+
+	<select id="queryGroup" resultType="HashMap">
+		SELECT
+		us.UserGroupID,
+		us.PersonID,
+		us.ParentUserGroupID,
+		us.UserGroupName,
+		us.UserGroupDesc,
+		us.GroupID,
+		p.FullName,
+		p.PhoneNum,
+		p.InputTime,
+		p.PersonStatus,
+		p.PhoneNum,
+		p.FullName
+		FROM
+		UserGroup us
+		LEFT JOIN Person p
+		on us.PersonID=p.PersonID
+		<include refid="where_group" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+
+	<select id="queryPersonIDByWxUnionID" resultType="Integer">
+		SELECT PersonID
+		FROM Person WHERE WxUnionID = #{0}
+	</select>
+
+	<insert id="addCount">
+		INSERT INTO Person(
+			FullName,
+			PhoneNum,
+			InputTime,
+			PersonStatus
+		)
+		VALUES(
+				#{FullName},
+		       #{PhoneNum},
+		       #{InputTime},
+		       #{PersonStatus}
+			  )
+	</insert>
+	<insert id="addStrangerPerson" useGeneratedKeys="true"
+			keyProperty="PersonID">
+		INSERT INTO Person (
+			InputTime,
+			PersonStatus,
+			wxcode,
+			WxUnionID
+		)
+		VALUES
+			(
+				NOW(),
+				#{PersonStatus},
+				#{wxcode},
+				#{WxUnionID}
+			)
+	</insert>
+
+	<insert id="addWxUser">
+		INSERT INTO WxInfo (
+		PersonID
+		,WxOpenID
+		,WxAvatarUrl
+		,Gender
+		,Province
+		,City
+		,Country
+		,LANGUAGE
+		,IpAddress
+		,Model
+		,PixelRatio
+		,WindowWidth
+		,WindowHeight
+		,VERSION
+		,Platform
+		,System
+		)
+		VALUES (
+		#{personid}
+		,#{openId}
+		,#{avatarUrl}
+		,#{gender}
+		,#{province}
+		,#{city}
+		,#{country}
+		,#{language}
+		,#{ipaddress}
+		,#{wxphone.model}
+		,#{wxphone.pixelRatio}
+		,#{wxphone.windowWidth}
+		,#{wxphone.windowHeight}
+		,#{wxphone.version}
+		,#{wxphone.platform}
+		,#{wxphone.system}
+		)
+	</insert>
+
+	<update id="modWxUser">
+		UPDATE WxInfo
+		SET WxOpenID = #{openId}
+		,WxAvatarUrl = #{avatarUrl}
+		,Gender = #{gender}
+		,Province = #{province}
+		,City = #{city}
+		,Country = #{country}
+		,LANGUAGE = #{language}
+		,IpAddress = #{ipaddress}
+		,Model = #{wxphone.model}
+		,PixelRatio = #{wxphone.pixelRatio}
+		,WindowWidth = #{wxphone.windowWidth}
+		,WindowHeight = #{wxphone.windowHeight}
+		,VERSION = #{wxphone.version}
+		,Platform = #{wxphone.platform}
+		,System = #{wxphone.system}
+
+		WHERE PersonID = #{personid}
+	</update>
+
+	<select id="queryPersonStatusByPersonID" resultType="Integer">
+		SELECT PersonStatus FROM Person WHERE PersonID = #{0}
+	</select>
+
+	<select id="queryFullNameByPersonID" resultType="String">
+		SELECT FullName FROM Person WHERE PersonID = #{0}
+	</select>
+
+	<select id="queryUserGroupByPersonID" resultType="HashMap">
+		SELECT
+		UserGroupID,
+		PersonID,
+		ParentUserGroupID,
+		UserGroupName,
+		UserGroupDesc,
+		GroupID
+		FROM
+		UserGroup
+		WHERE PersonID = #{0}
+	</select>
+
+	<select id="queryMaxGroupID" resultType="Integer">
+		SELECT MAX(GroupID) FROM UserGroup
+	</select>
+
+
+	<insert id="insertGroup">
+		INSERT INTO UserGroup (
+		PersonID,
+		ParentUserGroupID,
+		UserGroupName,
+		UserGroupDesc,
+		GroupID,
+		GroupPower,
+		STATUS
+		)
+		VALUES
+		(#{0}, #{1},#{2} ,#{3}, #{4},#{5},#{6})
+
+	</insert>
+
+	<select id="queryGroupIDByUserGroupName" resultType="Integer">
+		SELECT GroupID FROM UserGroup WHERE UserGroupName = #{0} LIMIT 1
+	</select>
+
+	<select id="queryPersonByPersonID" resultType="HashMap">
+		SELECT
+		p.PersonID,
+		p.FullName,
+		p.Email,
+		p.PhoneNum,
+		p.InputTime,
+		p.PersonStatus,
+		p.wxcode,
+		c.CardID,
+		c.CardNumber,
+		w.WxAvatarUrl
+		FROM
+		Person p
+		LEFT JOIN Card c ON p.PersonID = c.PersonID
+		LEFT JOIN
+		WxInfo w on p.WxUnionID=w.WxOpenID
+		WHERE p.PersonID = #{0}
+
+	</select>
+	<select id="queryAll" resultType="HashMap">
+	select
+	       p.FullName,u.UserGroupName,c.CardNumber,p.PersonID,c.CardType
+	FROM Person p
+	    LEFT JOIN UserGroup u on u.PersonID=p.PersonID
+	    LEFT JOIN Card c on c.PersonID=p.PersonID
+		<include refid="wheres" />
+	</select>
+	<sql id="wheres">
+		<where>
+			<if test="CardType != null and '' != CardType">
+				AND CardType = #{0}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryPersonDetailedByPersonID" resultType="HashMap">
+		SELECT
+		p.PersonID,
+		p.FullName,
+		p.Email,
+		p.PhoneNum,
+		p.InputTime,
+		p.PersonStatus,
+		p.wxcode,
+		c.CardID,
+		c.CardNumber,
+		u.UserGroupID,
+		u.GroupID,
+		u.UserGroupName,
+		u.GroupPower,
+		u.`Status` as Status
+		FROM
+		Person p
+		LEFT JOIN Card c ON p.PersonID = c.PersonID
+		LEFT JOIN UserGroup u ON u.PersonID = p.PersonID
+		WHERE
+		p.PersonID = #{0}
+	</select>
+
+	<update id="updateGroupStatusByUserGroupID">
+		UPDATE UserGroup
+		SET `Status` = #{1}
+		WHERE
+		UserGroupID = #{0}
+	</update>
+	
+	<select id="queryUserGroupStatusByPersonID"  resultType="Integer">
+	SELECT `Status` FROM UserGroup WHERE PersonID = #{0} LIMIT 1
+	</select>
+	
+	<select id="queryhouseholderByGroupidAndGroupPower" resultType="Integer">
+	SELECT PersonID FROM UserGroup WHERE GroupID = #{0} AND GroupPower = #{1}
+	</select>
+	
+	<select id="queryUserGroupNameByUserGroupID" resultType="String">
+		SELECT UserGroupName FROM UserGroup WHERE UserGroupID = #{0}
+	</select>
+	<select id="queryPersonIDByFullNameAndPhoneNum" resultType="Integer">
+		SELECT PersonID FROM Person WHERE FullName = #{0} And PhoneNum=#{1}
+	</select>
+
+	<select id="queryCountByFullNameAndPhoneNum" resultType="Integer">
+		SELECT count(PersonID)FROM Person WHERE FullName = #{0} And PhoneNum=#{1}
+	</select>
+	<select id="queryEmailByPersonID" resultType="String">
+		SELECT Email FROM Person WHERE PersonID = #{0}
+	</select>
+
+	<update id="update">
+		UPDATE Person
+		SET FullName = #{1},
+			PhoneNum = #{2},
+			InputTime = #{3},
+			PersonStatus = #{4}
+		WHERE
+			PersonID = #{0}
+
+	</update>
+	<update id="updateUserGroupNameByGroupID">
+		UPDATE UserGroup
+		SET
+			UserGroupName=#{1}
+		WHERE
+			GroupID = #{0}
+
+	</update>
+</mapper>

@@ -1,0 +1,37 @@
+<!--pages/pending_history_info/pending_history_info.wxml-->
+<view class="tab-main-top">
+  <view>
+    <view class="roundline"><view class="item-header">{{xing}}</view></view>
+    <view class="visitorname">访客姓名:{{name}}</view>
+    <view class="agree">{{status}}</view>
+  </view>
+</view>
+<view class="tab-main-body">
+  <view class="tab-main-item">
+    <view class="itemL">
+      <view class="visittime">来访时间:</view>
+      <view class="eng">Visiting time</view>
+    </view>
+    <view class="itemR">{{startTime}}</view>
+  </view>
+  <view class="tab-main-item">
+    <view class="itemL">
+      <view class="visittime">结束时间:</view>
+      <view class="eng">End time</view>
+    </view>
+    <view class="itemR">{{endTime}}</view>
+  </view>
+  <view class="tab-main-item">
+    <view class="itemL">
+      <view class="visittime">访客手机:</view>
+      <view class="eng">visitors' phone</view>
+    </view>
+    <view class="itemR">{{phone}}</view>
+  </view>
+</view>
+<view class="tab-main-bottom {{ inTime === 'in' ? 'vshow' : 'vhidden' }}">
+  <button wx:if="{{VisitorStatus == '2'}}" class="btn refuse" size="mini" plain="true" bindtap="doRefuse">取消访问</button>
+  <button wx:if="{{VisitorStatus == '3'}}" class="btn agree" size="mini" plain="true" bindtap="doAgree">同意访问</button>
+</view>
+
+

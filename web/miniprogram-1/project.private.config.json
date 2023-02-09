@@ -1,0 +1,23 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/visitor_info/visitor_info",
+          "pathName": "pages/lift/lift",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

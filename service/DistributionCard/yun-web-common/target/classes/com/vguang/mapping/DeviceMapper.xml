@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.IDeviceDao">
+
+	<insert id="insertDeviceE"  >
+		INSERT INTO Device(DeviceName,DeviceIdentification,DeviceType,DeviceModel,DeviceInstalTimel)
+		VALUES(#{0},#{1},#{2},#{3},#{4})
+	</insert>
+	<insert id="insertDevice"  useGeneratedKeys="true" keyProperty="DeviceID">
+		INSERT INTO Device (
+		DeviceName,
+		DeviceModel,
+		DeviceWifiName,
+		DeviceWifiPassWord,
+		DeviceIP,
+		DevicePort,
+		DeviceType,
+		DeviceState,
+		DeviceInstalTimel,
+		Flag,
+		Ip_Mode,
+		Mask,
+		Gateway,
+		Dns,
+		NetType,
+		ServerIP,
+		SecretType,
+		DeviceIdentification,
+		FloorDifference
+		)
+		VALUES
+		(
+		#{DeviceName},
+		#{DeviceModel},
+		#{DeviceWifiName},
+		#{DeviceWifiPassWord},
+		#{DeviceIP},
+		#{DevicePort},
+		#{DeviceType},
+		#{DeviceState},
+		NOW(),
+		#{Flag},
+		#{Ip_Mode},
+		#{Mask},
+		#{Gateway},
+		#{Dns},
+		#{NetType},
+		#{ServerIP},
+		#{SecretType},
+		#{DeviceIdentification},
+		#{FloorDifference}
+		)
+
+	</insert>
+
+	<update id="updateUn_DeviceFlagByID">
+		UPDATE Device SET Flag = #{0} WHERE DeviceID != #{1}
+	</update>
+
+	<update id="updatDeviceNameByID">
+		UPDATE Device SET DeviceName =#{1} where DeviceID=#{0}
+	</update>
+
+	<update id="updateDevice">
+		UPDATE Device SET DeviceName=#{DeviceName},
+						  DeviceModel=#{DeviceModel},
+						  DeviceWifiName=#{DeviceWifiName},
+						  DeviceWifiPassWord=#{DeviceWifiPassWord},
+						  DeviceIP=#{DeviceIP},
+						  DevicePort=#{DevicePort},
+						  DeviceType=#{DeviceType},
+						  DeviceState=#{DeviceState},
+						  DeviceInstalTimel=#{DeviceInstalTimel},
+						  Flag=#{Flag},
+						  Ip_Mode=#{Ip_Mode},
+						  Mask=#{Mask},
+						  Gateway=#{Gateway},
+						  Dns=#{Dns},
+						  NetType=#{NetType},
+						  ServerIP=#{ServerIP},
+						  SecretType=#{SecretType},
+						  DeviceIdentification=#{DeviceIdentification},
+						  FloorDifference=#{FloorDifference}
+		where DeviceID=#{DeviceID}
+	</update>
+	<sql id="where_device">
+		<where>
+			<if test="DeviceName != null and '' != DeviceName">
+				AND DeviceName = #{DeviceName}
+			</if>
+			<if test="DeviceModel != null and '' != DeviceModel">
+				AND DeviceModel = #{DeviceModel}
+			</if>
+			<if test="DeviceType != null and '' != DeviceType">
+				AND DeviceType = #{DeviceType}
+			</if>
+			<if test="Flag != null and '' != Flag">
+				AND Flag = #{Flag}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryCountDevice" resultType="Integer">
+		SELECT COUNT(*) FROM Device
+		<include refid="where_device" />
+	</select>
+
+	<select id="queryDevice" resultType="HashMap">
+		SELECT
+		DeviceID,
+		DeviceName,
+		DeviceModel,
+		DeviceWifiName,
+		DeviceWifiPassWord,
+		DeviceIP,
+		DevicePort,
+		DeviceType,
+		DeviceState,
+		DeviceInstalTimel,
+		Flag,
+		NetType,
+		ServerIP,
+		SecretType,
+		Mask,
+		Gateway,
+		Dns,
+		Ip_Mode,
+		DeviceIdentification,
+		FloorDifference
+		FROM
+		Device
+		<include refid="where_device" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+
+
+<select id="queryRuleDevice"  resultType="HashMap">
+SELECT
+		DeviceID,
+		DeviceName,
+		DeviceModel,
+		DeviceWifiName,
+		DeviceWifiPassWord,
+		DeviceIP,
+		DevicePort,
+		DeviceType,
+		DeviceState,
+		DeviceInstalTimel,
+		Flag,
+		NetType,
+		ServerIP,
+		SecretType,
+		Mask,
+		Gateway,
+		Dns,
+		Ip_Mode,
+		DeviceIdentification,
+		FloorDifference
+		FROM
+		Device
+		<include refid="where_device" />
+
+</select>
+
+
+	<update id="updateDeviceByID">
+		UPDATE Device
+SET DeviceName = #{0},
+DeviceType = #{1},
+DeviceState = #{2},
+DeviceWifiName = #{3},
+DeviceWifiPassWord = #{4},
+DeviceIP = #{5},
+DevicePort = #{6},
+NetType =#{8},
+Ip_Mode = #{9},
+Mask = #{10},
+Gateway = #{11},
+Dns = #{12},
+ServerIP = #{13},
+SecretType = #{14},
+Flag = #{15},
+FloorDifference = #{16}
+WHERE
+	DeviceID = #{7}
+
+	</update>
+
+
+
+ 	<select id="queryDeviceNameByID" resultType="String">
+ 	SELECT DeviceName FROM Device WHERE DeviceID = #{0}
+ 	</select>
+ 	
+ 	<select id="queryCountDeviceByIdentificationAndOrdDeviceID" resultType="Integer">
+ 	SELECT COUNT(*) FROM Device WHERE DeviceIdentification = #{0} AND OldDeviceID = #{1}
+ 	</select>
+ 	
+ 	<select id="queryDeviceIDByOrgDeviceID" resultType="Integer">
+ 	SELECT DeviceID  FROM Device WHERE OldDeviceID =#{0} LIMIT 1
+ 	</select>
+ 	
+ 	<select id="queryCountDeviceIDByOrgDeviceID" resultType="Integer">
+ 	SELECT COUNT(*)  FROM Device WHERE OldDeviceID =#{0} 	
+ 	</select>
+
+ 	
+	<select id="querydeviceByID"  resultType="HashMap">
+	SELECT
+	DeviceName,
+	Ip_Mode,
+	DeviceWifiName,
+	DeviceWifiPassWord,
+	DeviceIP,
+	Mask,
+	Gateway,
+	Dns,
+	DevicePort,
+	DeviceType,
+	Flag,
+	NetType,
+	ServerIP,
+	SecretType,
+	DeviceIdentification
+FROM
+	Device
+WHERE DeviceID = #{0}
+	</select>
+	
+	<select id="queryCountDeviceIDByFlag" resultType="Integer">
+	SELECT COUNT(*) FROM Device WHERE Flag = #{0}
+	</select>
+	
+	<select id="queryDeviceIDByDeviceIdentification" resultType="Integer">
+	SELECT DeviceID FROM Device WHERE DeviceIdentification = #{0} LIMIT 1
+	</select>
+	
+	<select id="queryDeviceTypeByDeviceID" resultType="Integer">
+	SELECT DeviceType FROM Device WHERE DeviceID = #{0}
+	</select>
+	
+	<select id="queryFloorDifferenceByDeviceID" resultType="Integer">
+	SELECT  FloorDifference FROM Device WHERE DeviceID = #{0}
+	</select>
+	
+	<select id="queryOldDeviceIDByDeviceID" resultType="String">
+	SELECT OldDeviceID FROM Device WHERE DeviceID = #{0}
+	</select>
+	
+	<delete id="delDeviceByDeviceID">
+	DELETE FROM Device WHERE DeviceID =#{0}
+	</delete>
+	<select id="queryDeviceByDeviceIdentification" resultType="com.vguang.eneity.Device">
+		SELECT
+		*
+		FROM
+		Device
+		where DeviceID=#{0}
+	</select>
+	<select id="querydeviceIdentificationByDeviceID" resultType="String">
+		SELECT DeviceIdentification FROM Device WHERE DeviceID = #{0}
+	</select>
+
+	<select id="queryDeviceByDeviceAndType" resultType="com.vguang.eneity.Device">
+		SELECT
+			*
+		FROM
+			Device
+		where DeviceID=#{0}
+	</select>
+
+</mapper>
+

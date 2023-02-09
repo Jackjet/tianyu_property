@@ -1,0 +1,16 @@
+<!--pages/pending_history/pending_history.wxml-->
+<view class="tab-btb">
+  <view class="seach-box">
+      <input class="seachInput" type="text" placeholder="按访客姓名查询" model:value="{{name}}" />
+      <button class="history" bindtap="initPendingHistory">查询</button>
+  </view>
+  <view wx:for="{{pendingArray}}" wx:key="index" wx:for-item="item" class="tab-main-item">
+      <view bindtap="toDetail" data-bean="{{item}}">
+        <view class="item-header">{{item.xing}}</view>
+        <h3>{{item.VisitorApplyName}}</h3>
+        <p class="theStatus">{{item.statusText}}</p>
+        <p>{{item.startTime}}~ {{item.endTime}}</p>
+      </view>
+    </view>
+</view>
+

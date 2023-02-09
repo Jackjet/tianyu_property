@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!-- SocketIO
+	<bean id="socketioConfig" class="com.corundumstudio.socketio.Configuration">
+		<property name="hostname" value="${socketio.host}" />
+		<property name="port" value="${socketio.port}" />
+		<property name="heartbeatTimeout" value="${socketio.heartbeatTimeout}" />
+	</bean>
+
+	<bean id="socketIOServer" class="com.corundumstudio.socketio.SocketIOServer"
+		scope="singleton" init-method="start" lazy-init="false">
+		<constructor-arg ref="socketioConfig" />
+	</bean>
+	 -->
+</beans>

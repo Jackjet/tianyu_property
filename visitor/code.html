@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no, email=no" />
+  <meta name="full-screen" content="true" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-fullscreen" content="true" />
+  <meta name="360-fullscreen" content="true" />
+  <title>通行码</title>
+  <link rel="stylesheet" type="text/css" href="./code.css" />
+  <script src="./jQuery.min.js"></script>
+  <script src="./qrcode.js"></script>
+</head>
+<body>
+  <div class="main">
+    <h3 class="theName"></h3>
+    <p class="tishi"></p>
+    <div class="code-box">
+      <div class="plate"></div>
+      <div id="qrcode"></div>
+    </div>
+  </div>
+</body>
+<script>
+  function QueryString(Param) {
+    var BreakString = new RegExp("(^|&)" + Param + "=([^&]*)(&|$)")
+    var GetUrl = window.location.search.substr(1).match(BreakString)
+    if (GetUrl != null) {
+      return unescape(GetUrl[2])
+    } else {
+      return null
+    }
+  }
+  $(function () {
+    var qrcode = new QRCode(document.getElementById("qrcode"));
+    qrcode.makeCodeByHex('Placeholder character');
+    $.ajax({
+      //请求方式
+      type: "POST",
+      //请求的媒体类型
+      contentType: "application/json;charset=UTF-8",
+      //请求地址
+      // url: "http://www.dingdingkaimen.cn/DistributionCard/wx/Passcode?" + theData,
+      url: "../wx/Passcode?VisitorApplyID=" + QueryString('id'),
+      //数据，json字符串
+      data: {},
+      //请求成功
+      success: function (result) {
+        if (result.Name) {
+          $('.theName').html(result.Name + '访客，欢迎来访')
+        }
+        if (result.state + '' === '1') {
+          $('.tishi').html('当前尚未到达预约时间，请在预约时间范围内打开此页面，获取二维码')
+          return false
+        }
+        if (result.state + '' === '-1') {
+          $('.tishi').html('你的预约申请已过期，如需通行，请重新申请！！')
+          return false
+        }
+        if (result.state + '' === '2') {
+          $('.tishi').html('你的预约申请尚未通过或已被拒绝，具体情况请自行联系拜访人！！')
+          return false
+        }
+        if (result.state + '' === '0') {
+          $('.plate').hide()
+          initCode(result.code)
+          setInterval(() => {
+            initCode(result.code)
+          }, 2000);
+        }
+      },
+      //请求失败，包含具体的错误信息
+      error: function (e) {
+        console.log(e);
+      }
+    });
+    function initCode(data) {
+      var theDate = new Date().getTime()
+      var sNum = Math.floor(theDate / 1000)
+      var numStr = sNum.toString(16) + ''
+      var numArr = []
+      for (let index = 0; index < 4; index++) {
+        numArr.push(numStr.substr(index * 2, 2))
+      }
+      var lastStr = numArr.reverse().join('')
+      qrcode.makeCodeByHex(data + lastStr);
+    }
+  })
+</script>
+</html>

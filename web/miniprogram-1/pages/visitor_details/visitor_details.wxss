@@ -1,0 +1,73 @@
+/* pages/visitor_details/visitor_details.wxss */
+page {
+  background-color: #F5F6FF;
+}
+.plate {
+  height: 240rpx;
+  width: 100%;
+  background-color: #5537FB;
+}
+.main-box {
+  position: relative;
+  padding-top: 50rpx;
+}
+.title {
+  position: absolute;
+  left: 0;
+  top: -140rpx;
+  padding-left: 220rpx;
+  height: 200rpx;
+}
+.logo {
+  position: absolute;
+  left: 50rpx;
+  top: 50rpx;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 100%;
+  background-color: #5bb590;
+  line-height: 134rpx;
+  text-align: center;
+  font-size: 50rpx;
+  color: #fff;
+}
+.title h2 {
+  position: absolute;
+  left: 260rpx;
+  top: 90rpx;
+  width: 400rpx;
+  font-size: 32rpx;
+  color: #fff;
+}
+.body {
+  width: 80%;
+  margin: 20rpx auto 0;
+}
+.body>view {
+  display: flex;
+  margin-top: 40rpx;
+  background-color: #fff;
+  padding: 40rpx 30rpx;
+  font-size: 30rpx;
+}
+.body input,
+.label {
+  line-height: 2;
+}
+.btn-box {
+  margin-top: 60rpx;
+  text-align: center;
+}
+.btn-box .theBtn {
+  margin-right: 20rpx;
+  font-size: 30rpx;
+  width: 200rpx;
+  border-radius: 30rpx;
+  color: #fff;
+}
+.toEdit {
+  background-color: #ccc;
+}
+.doDelete {
+  background-color: rgb(197, 2, 2);
+}

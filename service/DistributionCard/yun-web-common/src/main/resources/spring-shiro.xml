@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<context:component-scan base-package="com.vguang.*" />
+
+	<!-- MyBatis、Shiro共同使用ehcache缓存 start -->
+	<bean id="ehCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="true"></property> <!-- 这里是关键！！！没有必错 -->
+	</bean>
+	<!-- end MyBatis使用ehcache缓存 -->
+
+	<!-- 缓存管理器 使用Ehcache实现 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+
+	<bean id="shiroRealm" class="com.vguang.shiro.MyShiroRealm" />
+
+	<!-- Session会话管理 -->
+	<bean id="mySessionDAO" class="com.vguang.shiro.session.MySessionDAO"></bean>
+	<!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID, 
+		当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg name="name" value="vguang" />
+		<property name="httpOnly" value="true" />
+		<!--cookie的有效时间 value="-1"表示关闭服务器时失效此cookie -->
+		<property name="maxAge" value="1800" />
+	</bean>
+
+	<bean id="sessionManager" class="com.vguang.shiro.session.MySessionManager">
+		<property name="sessionDAO" ref="mySessionDAO" />
+		<!-- Cookie管理 -->
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+		<property name="sessionIdCookieEnabled" value="true" />
+	</bean>
+	
+	<!-- rememberMe管理器
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
+	    <constructor-arg value="rememberMe"/>  
+	    <property name="httpOnly" value="true"/>  
+	    <property name="maxAge" value="2592000"/> 
+	</bean>  
+	<bean id="rememberMeManager"  class="org.apache.shiro.web.mgt.CookieRememberMeManager">  
+	    <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>  
+	     <property name="cookie" ref="rememberMeCookie"/>  
+	</bean>
+	 -->
+	<!-- 安全管理器 org.apache.shiro.web.mgt.DefaultWebSecurityManager -->
+	<bean id="securityManager" class="com.vguang.shiro.session.MySecurityManager">
+		<property name="authorizer" ref="authenticator" />
+		<property name="realms" ref="shiroRealm" />
+		<!-- 注入缓存管理器 -->
+		<property name="cacheManager" ref="cacheManager" />
+		<!-- 注入session管理器 -->
+		<property name="sessionManager" ref="sessionManager" />
+		<!-- 记住我
+		<property name="rememberMeManager" ref="rememberMeManager" /> -->
+	</bean>
+
+	<!-- -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+		<property name="arguments" ref="securityManager" />
+	</bean>
+	
+	<bean id="authenticator" class="com.vguang.shiro.MyModularRealm"/>
+	<!-- <bean id="shiroManager" class="com.vguang.shiro.MyShiroManager" /> -->
+	<bean id="authcFilter" class="com.vguang.shiro.filter.MyLoginFilter"></bean>
+	<bean id="rolesFilter" class="com.vguang.shiro.filter.MyRolesFilter"></bean>
+	<!-- <property name="redirectUrl" value="/weblogout2"/> -->
+	<bean id="logoutFilter" class="com.vguang.shiro.filter.MyLogoutFilter">
+		
+	</bean>
+	
+	
+	<bean id="shiroFilter" class="com.vguang.shiro.filter.MyShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
+		<property name="loginUrl" value="/" />
+		<!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) 
+		<property name="successUrl" value="/" /> -->
+		<!-- 用户访问未对其授权的资源时，所显示的连接 -->
+		<property name="unauthorizedUrl" value="/exception/invalidses" />
+
+		<!-- 1、权限主过滤器 ,不够灵活修改权限后需要重新启动
+		<property name="filterChainDefinitions"> 
+			<value> 
+				/login = anon 
+				/getauthinfo = anon 
+				/webloginconfirm = authc 
+				/personquery = roles[admin] 
+				/weblogout = logout 
+			</value> 
+		</property> -->
+		
+		<!-- 3、权限过滤器， authc认证过滤失效 -->
+	<!--	<property name="filterChainDefinitions" value="#{shiroManager.loadFilterChainDefinitions()}" /> -->
+		
+		<!-- 自定义过滤器 -->
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="authcFilter" />
+				<entry key="roles" value-ref="rolesFilter" />
+				<entry key="logout" value-ref="logoutFilter" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 2、权限过滤器，可以灵活配置不需要重新启动
+	<bean id="filterChainDefinitionsService" class="com.vguang.shiro.filter.MyFilterChainDefinitions">
+		<property name="definitions">
+			<value>
+				/login = anon
+				/getauthinfo = anon
+				/webloginconfirm = authc
+				/orgloginconfirm = authc
+				/personquery = roles[admin]
+				/weblogout = logout
+			</value>
+		</property>
+	</bean>
+	 -->
+	<!-- 从mysql数据库动态加载配置权限,roles过滤失败
+	<bean id="filterChainDefinitionsService" class="com.vguang.shiro.filter.MyFilterChainDefinitions">  
+        <property name="definitions" value="#{shiroManager.loadFilterChainDefinitions()}" />  
+    </bean> 
+     -->
+     
+	<!-- 总后台选择角色后缓存到内存 -->
+	<!-- <bean id="roleCache" class="com.vguang.cache.RoleCache"></bean>-->
+	<!-- 加载系统配置项 -->
+	 <bean id="sysConfigs" class="com.vguang.system.SystemConfigs"></bean> 
+	
+	<import resource="spring-redis.xml" />
+	<import resource="spring-mybatis.xml" />
+	<import resource="spring-mail.xml" />
+
+		<import resource="spring-captcha.xml" />
+	
+	<!-- 定时任务 -->
+	<import resource="spring-task.xml" />
+	
+	<!-- <import resource="spring-elas.xml" /> -->
+</beans>

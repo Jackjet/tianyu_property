@@ -1,0 +1,33 @@
+<view>
+  <view class="plate"></view>
+  <view class="form">
+    <view>
+      <span class="label">访客姓名：</span>
+      <input type='input' model:value="{{name}}" maxlength='100' placeholder="请输入访客姓名" />
+    </view>
+    <view>
+      <span class="label">来访时间：</span>
+      <picker mode="multiSelector" class="timePicker" value="{{dateTime1}}"  bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray}}">
+        <view class="tui-picker-detail">
+          {{dateTimeArray[0][dateTime1[0]]}}-{{dateTimeArray[1][dateTime1[1]]}}-{{dateTimeArray[2][dateTime1[2]]}} {{dateTimeArray[3][dateTime1[3]]}}:{{dateTimeArray[4][dateTime1[4]]}}
+        </view>
+      </picker>
+    </view>
+    <view>
+      <span class="label">结束时间：</span>
+      <picker mode="multiSelector" class="timePicker" value="{{end_dateTime1}}"  bindchange="changeDateTime1_end" bindcolumnchange="changeDateTimeColumn_end" range="{{end_dateTimeArray}}">
+        <view class="tui-picker-detail" wx:if="{{down}}">
+          {{end_dateTimeArray[0][end_dateTime1[0]]}}-{{end_dateTimeArray[1][end_dateTime1[1]]}}-{{end_dateTimeArray[2][end_dateTime1[2]]}} {{end_dateTimeArray[3][end_dateTime1[3]]}}:{{end_dateTimeArray[4][end_dateTime1[4]]}}
+        </view>
+         <view class="tui-picker-detail" wx:else style="color:#808080 ;">请选择结束时间</view>
+      </picker>
+    </view>
+    <view>
+      <span class="label">访客手机：</span>
+      <input type='input' model:value="{{phone}}" maxlength='100' placeholder="请输入访客手机号" />
+    </view>
+    <view style="border: none;">
+      <button type="primary" class="theSubmit" size="mini" bindtap="doSubmit">发出邀请</button>
+    </view>
+  </view>
+</view>

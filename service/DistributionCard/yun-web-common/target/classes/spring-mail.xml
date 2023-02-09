@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 引入配置文件:classpath等同于src目录,两种配置方式 
+	<context:property-placeholder location="classpath:mail.properties" ignore-unresolvable="true" />
+	-->
+	<!-- file:C:/conf/mail.properties -->
+	<context:property-placeholder location="file:${global.config.path}/mail.properties" 
+		ignore-unresolvable="true" />
+	
+	<!-- 发送邮件 默认延迟25000毫秒 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${mail.host}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">60000</prop>
+			</props>
+		</property>
+		<property name="username">
+			<value>${mail.username}</value>
+		</property>
+		<property name="password">
+			<value>${mail.password}</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+	</bean>
+
+	<bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="${mail.from}" />
+		<property name="subject" value="${mail.subject}" />
+		<!-- <property name="text" value="邮件内容" /> -->
+	</bean>
+
+</beans>

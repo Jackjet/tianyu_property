@@ -1,0 +1,209 @@
+page {
+  font-family: 'SourceHanSansCN-Normal';
+  background-color: #F5F6FD;
+}
+
+.top-cover {
+  width: 750rpx;
+  height: 307rpx;
+  overflow: hidden;
+  position: relative;
+  background-color: #5537FB;
+}
+
+.family {
+  width: 120rpx;
+  height: 62rpx;
+  font-size: 24rpx;
+  color: #fff;
+  text-align: center;
+  margin: 142rpx auto;
+}
+
+.cheng {
+  font-size: 14rpx;
+}
+
+.option {
+  width: 750rpx;
+  height: 52rpx;
+  position: absolute;
+  bottom: 0rpx;
+  background-color: aqua;
+}
+
+.option-son {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.passed {
+  width: 50%;
+  height: 100%;
+  line-height: 52rpx;
+  font-size: 18rpx;
+  background-color: #fff;
+}
+
+.no-passed {
+  width: 50%;
+  height: 100%;
+  line-height: 52rpx;
+  font-size: 18rpx;
+  background-color: #5253E8;
+}
+
+.passed span {
+  margin-left: 172.5rpx;
+  color: #5158E4;
+}
+
+.no-passed span {
+  margin-left: 157rpx;
+  color: #fff;
+}
+
+.list {
+  width: 692rpx;
+  height: auto;
+  margin: 35rpx auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-content {
+  width: 100%;
+  height: 107rpx;
+  display: flex;
+  border-radius: 13rpx;
+  box-shadow: 5rpx 5rpx 5rpx #F0F1F9, -5rpx -5rpx 5rpx #F0F1F9;
+  margin-bottom: 28rpx;
+  align-items: center;
+  background-color: #fff;
+}
+
+.list-pic {
+  width: 62rpx;
+  height: 62rpx;
+  margin-left: 19rpx;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.list-pic image {
+  width: 100%;
+  height: 100%;
+}
+
+.list-text {
+  width: 300rpx;
+  margin-left: 20rpx;
+  height: 52rpx;
+  display: flex;
+  flex-direction: column;
+  color: #454444;
+}
+
+.list-name {
+  font-size: 18rpx;
+}
+
+.list-number {
+  margin-top: 8rpx;
+  font-family: '宋体';
+  font-size: 14rpx;
+}
+
+.tj {
+  width: 305rpx;
+  height: 68rpx;
+  text-align: center;
+  line-height: 68rpx;
+  font-size: 18rpx;
+  margin-left: 225rpx;
+  color: #fff;
+  border-radius: 30rpx;
+
+}
+
+.ty {
+  background-color: #70C7C7;
+  margin-top: 343rpx;
+}
+
+.jj {
+  margin-top: 46rpx;
+  background-color: #FA7180;
+}
+
+
+.box {
+  margin-left: 250rpx;
+}
+
+/* 修改多选框样式 */
+.box .wx-checkbox-input {
+  border-radius: 50%;
+  width: 17rpx;
+  height: 17rpx;
+  border: 2px solid #b81c28;
+}
+
+.box .wx-checkbox-input-disabled {
+  border-radius: 32rpx;
+  width: 17rpx;
+  height: 17rpx;
+  background: #f3f3f3;
+  border: 1px solid rgba(201, 201, 201, 1);
+}
+
+.box .wx-checkbox-input.wx-checkbox-input-checked {
+  /* background: #b81c28;
+ border: 2px solid #; */
+}
+
+.box .wx-checkbox-input.wx-checkbox-input-checked::before {
+  width: 17rpx;
+  height: 17rpx;
+  line-height: 17rpx;
+  text-align: center;
+  font-size: 15rpx;
+  color: #fff;
+  background: transparent;
+  transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1);
+}
+
+.box .wx-checkbox-input {
+  border-radius: 17rpx;
+  width: 17rpx;
+  height: 17rpx;
+  border: 1px solid #5158E4;
+}
+
+.box .wx-checkbox-input-disabled {
+  border-radius: 32rpx;
+  width: 17rpx;
+  height: 17rpx;
+  background: #f3f3f3;
+  border: 1px solid rgba(201, 201, 201, 1);
+}
+
+.box .wx-checkbox-input.wx-checkbox-input-checked {
+  background: #5158E4;
+}
+
+.box .wx-checkbox-input.wx-checkbox-input-checked::before {
+  width: 17rpx;
+  height: 17rpx;
+  line-height: 17rpx;
+  text-align: center;
+  font-size: 14rpx;
+  color: #fff;
+  background: transparent;
+  transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1);
+}
+
+/* 修改样式结束 */

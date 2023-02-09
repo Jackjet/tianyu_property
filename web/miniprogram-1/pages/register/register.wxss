@@ -1,0 +1,180 @@
+.top-back {
+  width: 750rpx;
+  height: 297rpx;
+  padding-top: 1px;
+  background-color: #5537FB;
+  padding-top: 1px;
+  box-sizing: border-box;
+}
+
+.page {
+  background-color: #F5F6FD;
+}
+
+.top-back view {
+  margin-top: 162rpx;
+  color: #fff;
+  font-size: 30rpx;
+  font-family: 'SourceHanSansCN-Normal';
+  margin-left: 315rpx;
+}
+
+.form-box {
+  width: 628rpx;
+  height: 790rpx;
+  z-index: 2;
+  margin: -60rpx auto;
+  border-radius: 10rpx;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 5rpx 5rpx 6rpx #F2F3FB, -5rpx 6rpx #F2F3FB;
+}
+
+.form-content {
+  width: 502rpx;
+  height: 660rpx;
+  display: flex;
+  flex-direction: column;
+  margin-top: 53rpx;
+  background-color: #fff;
+}
+
+.form-input {
+  width: 100%;
+  height: 51rpx;
+  margin-bottom: 27rpx;
+  display: flex;
+}
+
+.name {
+  width: 95rpx;
+  font-size: 18rpx;
+  height: 51rpx;
+  line-height: 51rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.lang-e {
+  font-size: 12rpx;
+}
+
+.input {
+  width: 387rpx;
+  height: 51rpx;
+  margin-left: 20rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 10rpx;
+  border: 1rpx solid #EEEEEE;
+  box-sizing: border-box;
+}
+
+.input input {
+  width: 387rpx;
+  height: 51rpx;
+  font-size: 20rpx;
+}
+
+.email input {
+  width: 330rpx;
+}
+
+.xt {
+  font-size: 14rpx;
+  font-family: '宋体';
+}
+
+.sub {
+  width: 305rpx !important;
+  height: 68rpx !important;
+  text-align: center;
+  font-size: 24rpx;
+  color: #fff;
+  margin-top: 388rpx;
+  background-color: #70C7C7;
+  border-radius: 40rpx;
+}
+
+.addr {
+  border: none;
+}
+
+.addr-box {
+  border: none;
+  width: 121rpx;
+  height: 51rpx;
+  border: 1rpx solid #eee;
+  border-radius: 10rpx;
+  margin-right: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.addr-box input{
+    width: 80rpx;
+    height: 51rpx;
+}
+.addr-box view{
+  font-size: 16rpx;
+  font-family: 'SourceHanSansCN-Normal';
+}
+.add-text{
+  font-size: 16rpx;
+}
+.add-addr{
+  border: none;
+  justify-content: end;
+  position: relative;
+  font-family: 'Source Han Sans CN';
+}
+
+.del-addr{
+  width: 120rpx;
+  display: flex;
+  margin-left: 20rpx;
+  align-items: center;
+  justify-content: center;
+  height: 51rpx;
+
+}
+.add-box{
+  width: 130rpx;
+  display: flex;
+  align-items: center;
+  height: 51rpx;
+}
+.addr-pos{
+  width: 270rpx;
+  height: 51rpx;
+  margin-left: 102rpx;
+  display: flex;
+  font-size: 16rpx;
+  justify-content:space-between;
+}
+.add-text{
+  margin-left: 10rpx;
+  font-size: 16rpx;
+}
+.del-icon{
+  margin-right: 6rpx;
+}
+.add-icon{
+  width: 16rpx;
+  height: 16rpx;
+}
+.add-icon image{
+  width: 100%;
+  height: 100%;
+}
+.sub-2{
+  margin-top: 221rpx;
+}
+.addr-flex{
+  width: 105rpx;
+  font-size: 18rpx;
+  height: 51rpx;
+  left: 122rpx;
+  top: 450rpx;
+  position: absolute;
+}

@@ -1,0 +1,70 @@
+<view class="top_cover">
+<view class="user">
+<view class="user-pic">
+<view class="user-pic-son">
+<image src="{{userinfo.AvatarUrl}}">
+</image>
+</view>
+</view>
+<view class="user-info">
+<view class="user-name">
+<sapn class="name-2">{{userinfo.FullName}}</sapn>
+<view class="level">
+<view class="leve-icon">
+<block wx:if="{{level==1}}">
+  <image src="/static/images/1163651811c64705055c1c0288b204c.png"></image>
+</block>
+<block wx:else>
+  <image id="hz_png" src="/static/images/hz.png"></image>
+</block>
+</view>
+<span wx:if="{{level==2}}">成员</span>
+<span wx:else>户主</span>
+</view>
+</view>
+<!-- 手机号邮箱 s -->
+<view class="my-phone">
+<span>我的手机 :</span>
+<span>{{userinfo.Person.PhoneNum}}</span>
+</view>
+<view class="my-email">
+<span>我的邮箱 :</span>
+<span>{{userinfo.Person.Email || ''}}</span>
+</view>
+<!-- 手机号邮箱 e -->
+</view>
+</view>
+</view>
+<!-- 下方 -->
+<view class="sele">
+<navigator url="/pages/my_family/my_family" class="sele-son" >
+<view class="son-icon">
+<view class="son-icon-img">  
+<image src="/static/images/family.png"></image>
+</view>
+</view>
+<span  class="son-son-text">管理家庭组</span>
+</navigator>
+<navigator url="/pages/power/power" class="sele-son">
+<view class="son-icon">
+<view class="son-icon-img qx-icon">  
+<image src="/static/images/qx.png"></image>
+</view>
+</view>
+<span class="son-son-text">通行权限</span>
+</navigator>
+<view bindtap="toVi" class="sele-son">
+<view class="son-icon">
+<view class="son-icon-img">  
+<image src="/static/images/zu85.png"></image>
+</view>
+</view>
+<span class="son-son-text">访客通知</span>
+</view>
+</view>
+<navigator wx:if="{{level!=2}}" url="/pages/invite/invite" class="Log invite">
+邀请成员
+</navigator>
+<navigator open-type="exit" bindtap="clear" target="miniProgram"  class="Log out">
+注销登录
+</navigator>

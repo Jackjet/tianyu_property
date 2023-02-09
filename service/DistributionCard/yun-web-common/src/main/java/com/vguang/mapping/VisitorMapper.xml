@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.IVisitorDao">
+	<sql id="where_visitor">
+		<where>
+			<if test="VisitorApplyName != null and '' != VisitorApplyName">
+				AND v.VisitorApplyName = #{VisitorApplyName}
+			</if>
+			<if test="PersonID != null and '' != PersonID">
+				AND v.PersonID = #{PersonID}
+			</if>
+			<if test="VisitorStatus != null and '' != VisitorStatus">
+				AND v.VisitorStatus = #{VisitorStatus}
+			</if>
+			<if test="VisitorBeginTime != null and '' != VisitorBeginTime">
+				AND UNIX_TIMESTAMP(v.VisitorBeginTime)
+				&gt;#{VisitorBeginTime}
+			</if>
+			<if test="VisitorEndTime != null and '' != VisitorEndTime">
+				AND UNIX_TIMESTAMP(v.VisitorEndTime) &lt;{VisitorEndTime}
+			</if>
+		</where>
+	</sql>
+	<select id="queryCountVisitor" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		VisitorApply v
+		LEFT JOIN
+		Person p ON v.PersonID = p.PersonID
+		LEFT JOIN
+		WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_visitor" />
+	</select>
+
+	<select id="queryCountHistoryVisitor" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		VisitorApply v
+		LEFT JOIN
+		Person p ON v.PersonID = p.PersonID
+		LEFT JOIN
+		WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_visitorTest" />
+	</select>
+	<select id="queryVisitor" resultType="HashMap">
+		SELECT
+		v.VisitorApplyID,
+		v.PersonID,
+		v.VisitorApplyName,
+		v.VisitorApplyPhone,
+		v.VisitorBeginTime,
+		v.VisitorEndTime,
+		v.VisitorStatus,
+		v.VisitorType,
+		p.FullName,
+		w.WxAvatarUrl
+		FROM
+		VisitorApply v
+		LEFT JOIN
+		Person p ON v.PersonID = p.PersonID
+		LEFT JOIN
+		WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_visitor" />
+		LIMIT #{currentpage}, #{pagesize}
+
+	</select>
+
+
+	<select id="queryVisitorapplyByVid" resultType="HashMap">
+		SELECT
+		v.VisitorApplyID,
+		v.PersonID,
+		v.VisitorApplyName,
+		v.VisitorApplyPhone,
+		v.VisitorBeginTime,
+		v.VisitorEndTime,
+		v.VisitorStatus,
+		v.VisitorType,
+		p.FullName,
+		w.WxAvatarUrl,
+		p.PhoneNum
+		FROM
+		VisitorApply v
+		LEFT JOIN Person p ON v.PersonID =p.PersonID
+		LEFT JOIN WxInfo w on p.WxUnionID=w.WxOpenID
+		Where v.VisitorApplyID =#{0}
+	</select>
+
+	<select id="queryVisitorApplyRuleByVisitorApplyID" resultType="HashMap">
+		SELECT
+		vr.VisitorApplyRuleID,
+		vr.VisitorApplyID,
+		v.VisitorApplyName,
+		vr.DeviceID,
+		d.DeviceName,
+		vr.LiftRule
+		FROM
+		VisitorApplyRule vr
+		LEFT JOIN
+		VisitorApply v ON vr.VisitorApplyID = v.VisitorApplyID
+		LEFT JOIN Device
+		d ON vr.DeviceID = d.DeviceID
+		WHERE
+		vr.VisitorApplyID = #{0}
+
+	</select>
+
+	<insert id="insertvisitor" useGeneratedKeys="true" keyProperty="VisitorApplyID">
+		INSERT INTO VisitorApply (
+		PersonID,
+		VisitorApplyName,
+		VisitorApplyPhone,
+		VisitorBeginTime,
+		VisitorEndTime,
+		VisitorStatus,
+		VisitorType
+		)
+		VALUES
+		(
+		#{PersonID},
+		#{VisitorApplyName},
+		#{VisitorApplyPhone},
+		#{VisitorBeginTime},
+		#{VisitorEndTime},
+		#{VisitorStatus},
+		#{VisitorType}
+		)
+
+	</insert>
+
+	<insert id="insertVisitorApplyRule">
+		INSERT INTO VisitorApplyRule (
+		DeviceID,
+		VisitorApplyID,
+		LiftRule,
+		VisitorBeginTime,
+		VisitorEndTime
+		)
+		VALUES
+		(
+		#{0},
+		#{1},
+		#{2},
+		#{3},
+		#{4}
+		)
+	</insert>
+
+	<update id="updatevisitor">
+		UPDATE VisitorApply
+		SET VisitorApplyName = #{1},
+		VisitorApplyPhone = #{5},
+		VisitorBeginTime = #{2},
+		VisitorEndTime =
+		#{3},
+		VisitorStatus = #{4}
+		WHERE
+		VisitorApplyID = #{0}
+
+	</update>
+
+	<update id="updateVisitorTimeByVisitorApplyID">
+		UPDATE VisitorApplyRule
+		SET
+		VisitorBeginTime = #{1},
+		VisitorEndTime = #{2}
+		WHERE
+		VisitorApplyID = #{0}
+
+	</update>
+	
+	<select id="getvisitorrule" resultType="HashMap">
+	SELECT
+	vr.VisitorApplyRuleID,
+	vr.DeviceID,
+	d.DeviceName,
+	vr.VisitorApplyID,
+	v.VisitorApplyName,
+	vr.LiftRule,
+	vr.VisitorBeginTime,
+	vr.VisitorEndTime
+	FROM
+	VisitorApplyRule vr
+	LEFT JOIN VisitorApply v ON vr.VisitorApplyID = v.VisitorApplyID
+	LEFT JOIN Device d ON vr.DeviceID = d.DeviceID
+	WHERE
+	vr.VisitorApplyID = #{0}
+	
+	</select>
+	
+	<delete id="delvisitorrule">
+	DELETE FROM VisitorApplyRule WHERE VisitorApplyRuleID = #{0}
+	</delete>
+	
+	<update id="updateVisitorRuleByID">
+	UPDATE VisitorApplyRule
+	SET DeviceID = #{1},
+	VisitorApplyID = #{2},
+	LiftRule = #{3},
+	VisitorBeginTime = #{4},
+	VisitorEndTime = #{5}
+	WHERE
+	VisitorApplyRuleID = #{0}
+</update>
+	<delete id="deleteVisitorRecordById">
+		DELETE FROM VisitorApply WHERE VisitorApplyID = #{0}
+	</delete>
+	<delete id="deleteVisitorAuthorityById">
+		DELETE FROM VisitorApplyRule WHERE VisitorApplyID = #{0}
+	</delete>
+
+	<select id="queryHistoryVisitor" resultType="HashMap">
+		SELECT
+		v.VisitorApplyID,
+		v.PersonID,
+		v.VisitorApplyName,
+		v.VisitorApplyPhone,
+		v.VisitorBeginTime,
+		v.VisitorEndTime,
+		v.VisitorStatus,
+		v.VisitorType,
+		p.FullName,
+		w.WxAvatarUrl
+		FROM
+		VisitorApply v
+		LEFT JOIN
+		Person p ON v.PersonID = p.PersonID
+		LEFT JOIN
+		WxInfo w on p.WxUnionID=w.WxOpenID
+		<include refid="where_visitorTest" />
+		LIMIT #{currentpage}, #{pagesize}
+
+	</select>
+
+	<sql id="where_visitorTest">
+		<where>
+			<if test="VisitorApplyName != null and '' != VisitorApplyName">
+				AND v.VisitorApplyName = #{VisitorApplyName}
+			</if>
+			<if test="PersonID != null and '' != PersonID">
+				AND v.PersonID = #{PersonID}
+			</if>
+			<if test="VisitorStatus != null and '' != VisitorStatus">
+				AND v.VisitorStatus = #{VisitorStatus}
+			</if>
+			<if test="VisitorBeginTime != null and '' != VisitorBeginTime">
+				AND v.VisitorBeginTime like #{VisitorBeginTime}
+			</if>
+
+		</where>
+	</sql>
+</mapper>

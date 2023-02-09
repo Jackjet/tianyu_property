@@ -1,0 +1,17 @@
+<view class="top-cover">
+  <view class="family">
+  <span class="level">家庭组权限</span>
+  <span class="cheng">共享组权限</span>
+  </view>
+<!-- 选项卡 -->
+</view>
+<!-- 二维码容器 -->
+<view class="code">
+<view class="code-img">
+<image src="{{code}}"></image>
+</view>
+</view>
+<button data-img='{{code}}'  bindtap="shareCode" class="share">
+分享二维码
+</button>
+<!-- 二维码容器 -->

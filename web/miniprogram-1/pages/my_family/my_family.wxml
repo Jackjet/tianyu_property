@@ -1,0 +1,47 @@
+<view class="top-cover">
+  <view class="family">
+  <span>我的家庭组</span>
+  <span class="cheng">共 {{total}} 位成员</span>
+  </view>
+<!-- 选项卡 -->
+  <view class="option" wx:if="{{power==1}}"> 
+  <view  class="option-son">
+  <view class="{{passed ? 'passed': 'no-passed'}}"  bindtap="passed">
+  <span>已通过的</span>
+  </view>
+  <view class="{{passed ? 'no-passed': 'passed'}}" bindtap="NoPassed">
+  <span >待审核的</span>
+  </view>
+  </view>
+</view>
+</view>
+<view class="list">
+<!-- 循环体  s-->
+<block wx:for="{{list}}">
+<view class="list-content">
+<view class="list-pic">
+<image src="{{item.WxAvatarUrl}}"></image>
+</view>
+<view class="list-text">
+<view class="list-name">
+  <span>{{item.FullName}}</span>
+</view>
+<view class="list-number">
+  <span>手机号: </span>
+  <span>{{item.PhoneNum}}</span>
+</view>
+</view>
+  <checkbox bindtap="selectList" data-index="{{index}}"  wx:if="{{!passed}}" class="check box"></checkbox>
+</view>
+</block>
+<!-- 循环体  e-->
+</view>
+
+<block wx:if="{{!passed && list.length}}">
+<view class="tj ty" data-is='yes' bindtap="consent">
+同意
+</view>
+<view bindtap="consent" data-is='no' class="tj jj">
+拒绝
+</view>
+</block>

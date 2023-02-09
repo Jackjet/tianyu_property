@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.IRuleDao">
+
+	<select id="queryCountRuleByOldRuleID" resultType="Integer">
+	SELECT COUNT(*) FROM Rule WHERE OldCardID =#{0}
+	</select>
+	
+	<insert id="addRule">
+	INSERT INTO Rule (
+	PersonID,
+	DeviceID,
+	StartTime,
+	EndTime,
+	LiftRule
+)
+VALUES
+	(#{0}, #{1}, #{2},#{3},#{4})
+	</insert>
+
+<sql id="where_rule">
+		<where>
+			<if test="fullname != null and '' != fullname">
+				AND p.FullName = #{fullname}
+			</if>
+			<if test="PersonID != null and '' != PersonID">
+				AND p.PersonID = #{PersonID}
+			</if>
+			<if test="devicename != null and '' != devicename">
+				AND d.DeviceName = #{devicename}
+			</if>
+			<if test="devicetype != null and '' != devicetype">
+				AND d.DeviceType = #{devicetype}
+			</if>
+			<if test="DeviceID != null and '' != DeviceID">
+				AND d.DeviceID = #{DeviceID}
+			</if>
+		</where>
+	</sql>
+
+
+
+	<select id="queryCountRules"  resultType="Integer">
+	SELECT
+	COUNT(*)
+FROM
+	Rule r
+LEFT JOIN Person p ON p.PersonID = r.PersonID
+LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+		LEFT JOIN WxInfo w ON p.WxUnionID=w.WxOpenID
+<include refid="where_rule" />
+	</select>
+	
+	<select id="queryRules"  resultType="HashMap">
+	SELECT
+	r.RuleID,
+	p.PersonID,
+	p.FullName,
+	r.DeviceID,
+	d.DeviceName,
+	d.DeviceIdentification,
+	r.StartTime,
+	r.EndTime,
+	r.LiftRule,
+	w.WxAvatarUrl
+FROM
+	Rule r
+LEFT JOIN Person p ON p.PersonID = r.PersonID
+LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+LEFT JOIN WxInfo w ON p.WxUnionID=w.WxOpenID
+<include refid="where_rule" />
+	LIMIT #{currentpage}, #{pagesize}
+	</select>
+
+	<select id="querypersonrule"  resultType="HashMap">
+	SELECT
+	r.RuleID,
+	r.PersonID,
+	r.DeviceID,
+	d.DeviceName,
+	r.StartTime,
+	r.EndTime,
+	r.LiftRule
+FROM
+	Rule r
+LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+WHERE
+	r.PersonID = #{0}  AND d.DeviceType =#{1}
+	
+	</select>
+	
+	<select id="queryDeviceidByRuleid"  resultType="String">
+	SELECT DeviceID FROM Rule WHERE RuleID = #{0}
+	</select>
+	
+	<select id="queryLiftRuleByRuleid"  resultType="String">
+	SELECT LiftRule FROM Rule WHERE RuleID = #{0}
+	</select>
+	
+	<delete id="delRuleByPersonID">
+		DELETE FROM Rule WHERE PersonID = #{0}
+	</delete>
+	
+	<delete id="delRuleByDeviceID">
+		DELETE FROM Rule WHERE DeviceID = #{0}
+	</delete>
+	
+	<select id="queryRuleidByDidAndPid"   resultType="Integer">
+	SELECT RuleID FROM Rule WHERE PersonID = #{0} AND DeviceID = #{1} LIMIT 1
+	</select>
+	
+	<update id="updateRule">
+	UPDATE Rule
+	SET PersonID = #{1},
+	 DeviceID = #{2},
+	 StartTime = #{3},
+	 EndTime =#{4},
+	 LiftRule = #{5}
+	WHERE
+		RuleID = #{0}
+	
+	</update>
+
+	<select id="queryRulesIDByPersonID" resultType="HashMap">
+		SELECT
+		RuleID
+		FROM
+			Rule
+		WHERE
+			PersonID = #{0}
+
+	</select>
+	<select id="queryRuleByPersonID" resultType="HashMap">
+	SELECT
+	r.RuleID,
+	r.PersonID,
+	r.DeviceID,
+	d.DeviceName,
+	r.StartTime,
+	r.EndTime,
+	r.LiftRule
+FROM
+	Rule r
+LEFT JOIN Device d ON r.DeviceID = d.DeviceID
+WHERE
+	r.PersonID = #{0} 
+	
+	</select>
+	
+	<select id="queryLiftRuleByDevice" resultType="String">
+	SELECT LiftRule FROM Rule WHERE DeviceID = #{0} And PersonID=#{1}
+	</select>
+
+	<select id="queryDeviceNameAndLiftRuleByPersonID" resultType="HashMap">
+		SELECT
+			d.DeviceName,r.LiftRule,d.DeviceID
+		FROM Rule r
+				 LEFT JOIN Device d
+						   on
+							   r.DeviceID= d.DeviceID
+where PersonID=#{0}
+
+	</select>
+	<select id="queryFamilyGroupRule"  resultType="HashMap">
+		select us.GroupID,p.FullName,p.PhoneNum,us.UserGroupName,us.PersonID,us.GroupPower
+		FROM UserGroup us
+		LEFT JOIN Person p on p.PersonID=us.PersonID
+		<include refid="where" />
+		LIMIT #{currentpage}, #{pagesize}
+	</select>
+	<select id="queryCountFamilyGroupRule"  resultType="Integer">
+		select count(*)
+		FROM UserGroup us
+		LEFT JOIN Person p on p.PersonID=us.PersonID
+		<include refid="where" />
+	</select>
+	<select id="queryListByPersonID"  resultType="HashMap">
+		select us.GroupID,p.FullName,p.PhoneNum,us.UserGroupName,us.PersonID,p.InputTime
+		FROM UserGroup us
+				 LEFT JOIN Person p on p.PersonID=us.PersonID
+		where us.GroupPower=1  AND us.PersonID=#{0}
+	</select>
+
+	<select id="queryPersonIDByGroupID"  resultType="HashMap">
+		SELECT PersonID FROM UserGroup where GroupID=#{0}
+	</select>
+
+	<sql id="where">
+		<where>
+			<if test="GroupPower != null and ''!=GroupPower">
+				us.GroupPower= #{GroupPower}
+			</if>
+			<if test="PhoneNum != null and '' != PhoneNum">
+				AND p.PhoneNum=#{PhoneNum}
+			</if>
+			<if test="UserGroupName != null and '' != UserGroupName">
+				AND us.UserGroupName LIKE #{UserGroupName}
+			</if>
+			<if test="FullName != null and '' != FullName">
+				AND p.FullName=#{FullName}
+			</if>
+
+		</where>
+	</sql>
+
+	<select id="queryVisitorEndTimeByVisitorApplyID"  resultType="String">
+		SELECT VisitorEndTime FROM VisitorApplyRule WHERE VisitorApplyID = #{0}
+	</select>
+
+	<select id="queryVisitorBeginTimeByVisitorApplyID"  resultType="String">
+		SELECT VisitorBeginTime FROM VisitorApplyRule WHERE VisitorApplyID = #{0}
+	</select>
+</mapper>

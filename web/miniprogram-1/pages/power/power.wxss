@@ -1,0 +1,144 @@
+page{
+  font-family: 'SourceHanSansCN-Normal';
+  background-color: #F5F6FD;
+}
+.top-cover{
+  width: 750rpx;
+  height: 307rpx;
+  overflow: hidden;
+  position: relative;
+  background-color: #5537FB;
+}
+.family{
+  width: 120rpx;
+  height: 62rpx;
+  font-size: 24rpx;
+  color: #fff;
+  text-align: center;
+  margin: 142rpx auto;
+}
+.cheng{
+  font-size: 14rpx;
+}
+.add-icon{
+  width: 30rpx;
+  height: 30rpx;
+  text-align: center;
+  line-height: 25rpx;
+  font-size: 25rpx;
+  margin-left: 88rpx;
+  margin-right: 15rpx;
+  border-radius: 50%;
+  color: #fff;
+  border: 1rpx solid #fff;
+  box-sizing: border-box;
+}
+
+.option{
+  width: 750rpx;
+  height: 52rpx;
+ position: absolute;
+ bottom: 0rpx;
+  background-color: aqua;
+}
+
+.option-son{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.passed{
+  width:50% ;
+  height: 100%;
+  line-height: 52rpx;
+  font-size: 18rpx;
+  background-color: #fff;
+}
+.no-passed{
+  width:50% ;
+  height: 100%;
+  line-height: 52rpx;
+  font-size: 18rpx;
+  background-color: #5253E8;
+}
+.passed span{
+  margin-left: 172.5rpx;
+  color: #5158E4;
+}
+.no-passed span{
+  margin-left: 157rpx;
+  color: #fff;
+}
+.list{
+  width: 692rpx;
+  height: auto;
+  margin: 35rpx auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-content{
+  width: 100%;
+  height: 107rpx;
+  display: flex;
+  border-radius: 13rpx;
+  box-shadow: 5rpx 5rpx 5rpx #F0F1F9, -5rpx -5rpx 5rpx #F0F1F9;
+  margin-bottom: 28rpx;
+  align-items: center;
+  background-color: #fff;
+}
+
+.list-pic{
+  width: 62rpx;
+  height: 52rpx;
+  margin-left: 19rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.list-pic image{
+  width: 100%;
+  height: 100%;
+}
+
+.list-text{
+  width: 300rpx;
+  margin-left: 20rpx;
+  height: 52rpx;
+  display: flex;
+  flex-direction: column;
+  color: #454444;
+}
+.list-name{
+  font-size: 18rpx;
+}
+.list-number{
+  margin-top: 8rpx;
+  font-family: '宋体';
+  font-size: 14rpx;
+}
+
+.tj{
+  width: 350rpx;
+  height: 68rpx;
+  text-align: center;
+  line-height: 68rpx;
+  font-size: 18rpx;
+  margin-left: 225rpx;
+  color: #fff;
+  border-radius: 30rpx;
+}
+.ty{
+  background-color: #7895EB;
+  margin-top: 46rpx;
+}
+.add{
+  margin-top:170rpx;
+  display: flex;
+  align-items: center;
+  background-color: #70C7C7;
+}
+
+.box{
+  margin-left: 250rpx;
+}

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vguang.dao.ISyncDao">
+
+	<select id="querySysConfigs" resultType="HashMap">
+		SELECT SysConfigName
+		,SysConfigKey
+		,SysConfigValue
+		,SysConfigType
+		,SysConfigDesc
+		FROM SysConfig
+	</select>
+
+	<select id="queryValueByKey" resultType="String">
+		SELECT
+		SysConfigValue
+		FROM
+		SysConfig
+		WHERE
+		SysConfigKey = #{0}
+	</select>
+
+	<insert id="addSysConfigByKey">
+		INSERT INTO SysConfig (
+		SysConfigName,
+		SysConfigType,
+		SysConfigKey,
+		SysConfigValue,
+		SysConfigDesc,
+		SendOutState,
+		SysGroup
+		)
+		VALUES
+		(#{0},#{1},#{2},#{3},#{4},#{5},#{6})
+	</insert>
+
+	<select id="querySysConfigByKey" resultType="HashMap">
+		SELECT 
+		SysConfigID
+		,SysConfigName
+		,SysConfigKey
+		,SysConfigValue
+		,SysConfigType
+		,SysConfigDesc
+		,SendOutState
+		,SysGroup
+		FROM SysConfig
+		WHERE SysConfigKey =#{0}
+
+	</select>
+
+	<update id="updateSyscongigByKey">
+		UPDATE SysConfig
+		SET SysConfigValue = #{1}
+		WHERE
+		SysConfigKey = #{0}
+
+	</update>
+
+	<select id="getValueByKey" resultType="String">
+		SELECT SysConfigValue FROM SysConfig WHERE SysConfigKey =#{0}
+	</select>
+
+	<select id="queryCountSysConfigByKey" resultType="Integer">
+		SELECT COUNT(*) FROM SysConfig WHERE SysConfigKey= #{0}
+	</select>
+
+	<select id="querySysConfigsbByType" resultType="HashMap">
+		SELECT SysConfigName
+		,SysConfigKey
+		,SysConfigValue
+		,SysConfigType
+		,SysConfigDesc
+		,SendOutState
+		FROM SysConfig
+		WHERE SysConfigType =#{0}
+	</select>
+
+	<update id="updateSendOutStateByKey">
+		UPDATE SysConfig
+		SET SendOutState = #{0}
+		WHERE
+		SysConfigKey = #{1}
+	</update>
+	
+	<sql id="where_SysConfig">
+		<where>
+			<if test="SysConfigType != null and '' != SysConfigType">
+				AND SysConfigType = #{SysConfigType}
+			</if>
+			<if test="SysConfigKey != null and '' != SysConfigKey">
+				AND SysConfigKey = #{SysConfigKey}
+			</if>
+			<if test="SendOutState != null and '' != SendOutState">
+				AND SendOutState = #{SendOutState}
+			</if>
+			<if test="SysGroup != null and '' != SysGroup">
+				AND SysGroup = #{SysGroup}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="queryCountSysConfigsByparams" resultType="Integer">
+	SELECT COUNT(*) FROM SysConfig
+	<include refid="where_SysConfig" />
+	</select>
+	
+	<select id="querySysConfigsByparams"  resultType="HashMap">
+	SELECT SysConfigName
+		,SysConfigKey
+		,SysConfigValue
+		,SysConfigType
+		,SysConfigDesc
+		,SendOutState
+		,SysGroup
+		FROM SysConfig
+	<include refid="where_SysConfig" />
+	</select>
+
+</mapper>

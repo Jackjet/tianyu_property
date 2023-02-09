@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/lift/lift",
+    "pages/visitor_info/visitor_info",
+    "pages/register/register",
+    "pages/my/my",
+    "pages/qr/qr",
+    "pages/power/power",
+    "pages/my_family/my_family",
+    "pages/approval_visitor/approval_visitor",
+    "pages/invite/invite",
+    "pages/add_addr/add_addr",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/add_visitor/add_visitor",
+    "pages/visitor_details/visitor_details",
+    "pages/edit_visitor/edit_visitor",
+    "pages/pending_history/pending_history",
+    "pages/pending_history_info/pending_history_info",
+    "pages/visitor_history/visitor_history",
+    "pages/visitor_history_info/visitor_history_info",
+    "pages/help/help"
+  ],
+  "tabBar": {
+    "custom": true,
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/visitor_info/visitor_info",
+        "iconPath": "/static/images/zu88.png",
+        "selectedIconPath": "/static/images/zu89.png",
+        "text": "访客"
+      },
+      {
+        "pagePath": "pages/lift/lift",
+        "iconPath": "/static/images/l.png",
+        "selectedIconPath": "/static/images/chengti.png",
+        "text": "乘梯"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "/static/images/zu86.png",
+        "selectedIconPath": "/static/images/zu87.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#5537FB",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

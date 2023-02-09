@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1800 seconds" debug="false">
+
+	<property name="USER_HOME" value="logs" />
+	<property scope="context" name="FILE_NAME" value="wxlogback" />
+	<timestamp key="byDay" datePattern="yyyy-MM-dd HH:mm:ss" />
+	<!-- <property reso="jdbc.properties"/> -->
+	<!--  
+	<property file="C:/conf/jdbc.properties"></property>
+	<property file="C:/conf/mail2.properties"></property>
+	 -->
+	<!--  
+	<property file="/var/tomcat/conf/jdbc_device.properties"></property>
+	<property file="/var/tomcat/conf/mail2.properties"></property>
+	  -->
+	<!-- 1、输出到控制台 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 2、输出到文件 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 过滤日志级别
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		 -->
+		<!-- 输出路径 -->
+		<file>${USER_HOME}/${FILE_NAME}.log</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<!-- 超出大小，压缩 -->
+			<fileNamePattern>
+				${USER_HOME}/${byDay}/${FILE_NAME}-${byDay}-%i.log.zip
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+
+		<!-- json "req_id": "%X{reqId}", "elapsed_time": "#asLong{%X{elapsedTime}}"
+		    "tags": ["errorlog"], 
+			"timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}", 
+			"log_level": "%-5level",
+			"class_name": "%class", 
+			"line_number": "%line",  -->
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp />
+				<pattern>
+					<pattern>
+						{"tags": ["errorlog"],
+						"level": "%level",
+						"project": "yun-web",
+						"logger": "%logger",
+						"thread": "%thread",
+						"message": "%message",
+						"line_number": "%line",
+						"stack_trace": "%exception"}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+
+		<!-- <encoder> <pattern> %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level 
+			%logger{35} - %msg%n </pattern> </encoder> -->
+		<!-- <layout class="ch.qos.logback.classic.PatternLayout"> 
+				<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method:%L -%msg%n</pattern> 
+			</layout> -->
+	</appender>
+	
+	<!-- 3、写入到数据库 -->
+	<appender name="MYSQL" class="ch.qos.logback.classic.db.DBAppender">  
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">  
+            <dataSource class="org.apache.commons.dbcp.BasicDataSource">  
+                <driverClassName>com.mysql.jdbc.Driver</driverClassName>  
+                <url>${mysql.url}</url>
+                <username>${mysql.username}</username>  
+                <password>${mysql.password}</password>  
+            </dataSource>  
+        </connectionSource>  
+    </appender>
+    
+	<!-- 4、发送邮件告警   null != throwable-->
+    <property name="email_subject" value="[Error]: %logger" />
+
+	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+		<smtpHost>${mail.host}</smtpHost>
+		<smtpPort>${mail.port}</smtpPort>
+		<username>${mail.username}</username>
+		<password>${mail.password}</password>
+		<SSL>${mail.useSSL}</SSL>
+		<asynchronousSending>true</asynchronousSending>
+		<to>${mail.to}</to>
+		<from>${mail.from}</from>
+		<subject>${email_subject}</subject>
+		<layout class="ch.qos.logback.classic.PatternLayout"> 
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]%logger{56}.%method:%L -%msg%n</pattern> 
+		</layout>
+		<!-- & encoded as &amp;
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+			<evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+				<expression>
+					if(level > WARN) {
+						return true;
+					}
+					return false;
+				</expression>
+			</evaluator>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		 -->
+	</appender>  
+
+	<!-- spring、mybatis只输出DEBUG级别以上的日志 ch.qos.logback 
+	<logger name="org.mybatis" level="debug" />
+	<logger name="org.springframework" level="WARN" />
+	-->
+	
+	<!-- com.vguang包下所有日志写入到catalina.out -->
+	<logger name="com.vguang" level="info" additivity="true">
+		<!-- <level value="debug" /> -->
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- 所有日志写入到appender -->
+	<root level="ERROR">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="MYSQL"/>
+		<appender-ref ref="EMAIL"/>
+	</root>
+</configuration>

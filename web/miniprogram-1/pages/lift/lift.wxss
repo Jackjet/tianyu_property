@@ -1,0 +1,303 @@
+page {
+  background-color: #F5F6FD;
+  font-family: 'SourceHanSansCN-Normal';
+}
+
+image {
+  width: 100%;
+  height: 100%;
+}
+
+.header-box {
+  width: 100%;
+  height: 350rpx;
+  background-color: #5342F2;
+  z-index: 2;
+  position: relative;
+  padding-top: 1rpx;
+}
+
+.user {
+  width: 142rpx;
+  height: 142rpx;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  border: 1rpx solid #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  margin-top: 177rpx;
+}
+
+.user-pic {
+  width: 130rpx;
+  height: 130rpx;
+  background-color: azure;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.radius {
+  width: 100%;
+  height: 100rpx;
+  position: absolute;
+  top: 315rpx;
+  z-index: -1;
+  content: '';
+  border-radius: 0 0 70% 70%;
+  background: linear-gradient(#5342F2, #5342F2);
+}
+
+input {
+  font-size: 12rpx;
+}
+
+.user_name {
+  position: absolute;
+  width: auto;
+  left: 42%;
+  top: 350rpx;
+  font-size: 24rpx;
+  color: #fff;
+}
+
+.btn_name {
+  position: absolute;
+  left: 35%;
+}
+
+.name {
+  margin-right: 10rpx;
+}
+
+.no-family {
+  width: 100%;
+  height: auto;
+  margin-top: 122rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.no-family-box {
+  width: 344.69rpx;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.no-img {
+  width: 100%;
+  height: 182.24rpx;
+}
+
+.no-img image {
+  width: 100%;
+  height: 100%;
+}
+
+.no-text-1 {
+  font-size: 24rpx;
+  margin-top: 39rpx;
+}
+
+.no-text-2 {
+  font-size: 18rpx;
+  font-family: '宋体';
+  margin-top: 21rpx;
+}
+
+.saoyisao {
+  width: 305rpx;
+  height: 68rpx;
+  border-radius: 30rpx;
+  color: #fff;
+  font-size: 24rpx;
+  text-align: center;
+  margin-top: 97rpx;
+  line-height: 68rpx;
+  background-color: #7671FF;
+}
+
+.bangzhu {
+  margin-top: 21rpx;
+  background-color: #C5C5D2;
+}
+
+/* 已加入家庭组的样式 */
+.join-user {
+  width: 144.78rpx;
+  height: 144.78rpx;
+  border-radius: 50%;
+  position: absolute;
+  top: 173rpx;
+  left: 82rpx;
+}
+
+.join-img {
+  width: 131.26rpx;
+  height: 131.25rpx;
+  position: absolute;
+  top: 181rpx;
+  left: 90rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.join-img image {
+  width: 100%;
+  height: 100%;
+}
+
+.hello {
+  width: 204rpx;
+  position: absolute;
+  top: 199rpx;
+  left: 276rpx;
+  color: #fff;
+  height: 32rpx;
+  font-size: 24rpx;
+}
+
+.text-name {
+  margin-left: 10rpx;
+}
+
+.option {
+  width: 371rpx;
+  height: 46rpx;
+  color: #fff;
+  font-size: 24rpx;
+  border: 1rpx solid #fff;
+  position: absolute;
+  top: 271rpx;
+  left: 272.5rpx;
+}
+
+.select_box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+}
+
+.select_text {
+  font-size: 22rpx;
+  flex: 1;
+  line-height: 86rpx;
+  height: 86rpx;
+}
+
+.select_img {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+  transform: rotate(270deg);
+  transition: transform 1s;
+}
+
+.sele-1 {
+  transform: rotate(90deg);
+  transition: transform 1s;
+}
+
+.select_img_rotate {
+  transform: rotate(180deg);
+}
+
+.option_box {
+  position: absolute;
+  top: 56rpx;
+  width: 100%;
+  box-sizing: border-box;
+  height: auto;
+  overflow-y: auto;
+  color: #eee;
+  border-top: 0;
+  background: #fff;
+  transition: height 0.3s;
+  z-index:999;
+}
+
+.option-text {
+  width: 100%;
+  margin-left: 20rpx;
+  height: auto;
+  color: #5342F2;
+  margin-top: 10rpx;
+}
+
+.family {
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin: 150.7rpx auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.family-center {
+  width: 335rpx;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.two-code {
+  width: 480rpx;
+  height: 490rpx;
+  display: flex;
+  position: relative;
+  background-color: #fff;
+  flex-direction: column;
+  align-items: center;
+}
+
+.two-code-img {
+  width:450rpx;
+  margin-top: 14.5rpx;
+  height: 450rpx;
+  /* background-color: #C5C5D2; */
+}
+
+.yichang {
+  font-size: 16rpx;
+  margin-top: 28rpx;
+}
+
+.getinfo {
+  width: 230rpx !important;
+  height:55rpx;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+  border: none;
+  border-radius: 40rpx;
+  background-color: #fff;
+}
+
+.cyc {
+  width: 305rpx;
+  height: 68rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+  color: #fff;
+  font-family: 'SourceHanSansCN-Normal';
+  background-color: #7671FF;
+  border-radius: 30rpx;
+  margin-top: 40rpx;
+}

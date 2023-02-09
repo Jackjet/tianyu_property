@@ -1,0 +1,155 @@
+.top_cover{
+  width: 750rpx;
+  height: 400rpx;
+  background-color: #5537FB;
+  overflow: hidden;
+}
+.user{
+  width: 500rpx;
+  height: 145rpx;
+  margin-top: 198rpx;
+  margin-left: 73rpx;
+  position:relative;
+  display: flex;
+  justify-content: space-between;
+
+}
+.user-pic{
+  width: 145rpx;
+  height: 145rpx;
+  border-radius: 50%;
+  border: 1rpx solid #fff;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-pic-son{
+  width: 131rpx;
+  height: 131rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.user-pic-son image{
+  width: 100%;
+  height: 100%;
+}
+.user-info{
+  width: 300rpx;
+  height:100%;
+  display: flex;
+  font-family: 'SourceHanSansCN-Normal';
+  flex-direction: column;
+  color: #fff;
+
+}
+.user-name{
+  width: 196rpx;
+  height: 40rpx;
+  display: flex;
+  color: #fff;
+  justify-content: space-between;
+ 
+}
+.level{
+  width: 92rpx;
+  height: 35rpx;
+  display: flex;
+  align-items: center;
+  border: 1rpx solid #fff;
+  border-radius: 10rpx;
+  font-size: 18rpx;
+
+}
+.leve-icon{
+  width: 18rpx;
+  margin-right: 9.3rpx;
+  margin-left: 10rpx;
+  margin-top: -5rpx;
+  height: 16rpx;
+}
+.name-2{
+  font-size: 24rpx;
+}
+
+.my-phone{
+  width: auto;
+  height: 24rpx;
+  margin-top: 34rpx;
+  font-size: 18rpx;
+}
+.my-email{
+  width: auto;
+  height: 24rpx;
+  margin-top: 22rpx;
+  font-size: 18rpx;
+}
+
+.sele{
+  width: 500rpx;
+  margin: 76rpx auto;
+  height: auto;
+  display: flex;
+  font-size: 18rpx;
+  font-family: 'SourceHanSansCN-Normal';
+  justify-content: space-between;
+}
+.sele-son{
+  width: 99rpx;
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+image{
+  width: 100%;
+  height: 100%;
+}
+
+
+.son-icon{
+  width: 99rpx;
+  height: 99rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #EEEEEE;
+}
+
+.son-icon-img{
+  width: 48rpx;
+  height: 48rpx;
+  overflow: hidden;
+}
+.son-son-text{
+  margin-top: 23rpx;
+}
+.Log{
+  width: 305rpx;
+  height: 68rpx;
+  background-color: #FA7180;
+  color: #fff;
+  border-radius: 34rpx;
+  line-height: 68rpx;
+  text-align: center;
+  font-size: 24rpx;
+}
+
+.invite{
+  margin-left: 228rpx;
+  margin-top: 228rpx;
+  background-color: #70C7C7;
+}
+#hz_png{
+
+}
+.out{
+  margin-left: 228rpx;
+  margin-top: 28rpx;
+}
+.qx-icon{
+  height: 54rpx;
+}

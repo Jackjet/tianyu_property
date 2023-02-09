@@ -1,0 +1,39 @@
+<!--pages/visitor_info/visitor_info.wxml-->
+<view class="tab-box">
+  <view class="tab-invitation {{nowPage ==='visitor' ? 'tab-choose' : 'tab-unchoose'}}" bindtap="toInvitation">我发出的</view>
+  <view class="tab-pending {{nowPage ==='pending' ? 'tab-choose' : 'tab-unchoose'}}" bindtap="toPending">待处理的</view>
+</view>
+<view class="tab-main">
+  <view class="tab-main-box {{nowPage ==='visitor' ? 'vshow' : 'vhidden'}}">
+    <view class="seach-box">
+      <input class="seachInput" type="text" placeholder="按访客姓名查询" bindconfirm="doSearchVisitor" model:value="{{visitorSearch}}" />
+      <button class="history" size="mini" plain="true" bindtap="toVisitorHistory">访客历史</button>
+    </view>
+    <view wx:for="{{visitorArray}}" wx:key="id" wx:for-item="item" class="tab-main-item">
+      <view bindtap="toVisitorDetail" data-bean="{{item}}">
+        <view class="item-header">{{item.xing}}</view>
+        <h3>{{item.VisitorApplyName}}</h3>
+        <span>{{item.VisitorApplyPhone}}</span>
+        <p>{{item.VisitorBeginTime}}~ {{item.VisitorEndTime}}</p>
+      </view>
+      <button class="remove" size="mini" plain="true" bindtap="doVisitorDeleta" data-bean="{{item}}">取消</button>
+    </view>
+    <button class="add" size="mini" plain="true" bindtap="toVisitorAdd">新增访客</button>
+  </view>
+  <view class="tab-main-box {{nowPage ==='pending' ? 'vshow' : 'vhidden'}}">
+    <view class="seach-box">
+      <input class="seachInput" type="text" placeholder="按访客姓名查询" bindconfirm="doSearchPending" model:value="{{pendingSearch}}" />
+      <button class="history" size="mini" plain="true" bindtap="toPendingHistory">处理历史</button>
+    </view>
+    <view wx:for="{{pendingArray}}" wx:key="id" wx:for-item="item" class="tab-main-item">
+      <view bindtap="toPendingDetail" data-bean="{{item}}">
+        <view class="item-header">{{item.xing}}</view>
+        <h3>{{item.VisitorApplyName}}</h3>
+        <span>{{item.VisitorApplyPhone}}</span>
+        <p>{{item.VisitorBeginTime}}~ {{item.VisitorEndTime}}</p>
+      </view>
+      <button class="agree" size="mini" plain="true" bindtap="doAgree" data-bean="{{item}}">同 意</button>
+      <button class="refuse" size="mini" plain="true" bindtap="doRefuse" data-bean="{{item}}">拒 绝</button>
+    </view>
+  </view>
+</view>

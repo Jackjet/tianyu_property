@@ -1,0 +1,82 @@
+/* pages/visitor_history/visitor_history.wxss */
+page{
+  background-color: #f0f0f0;
+}
+.seach-box {
+  width: 90%;
+  margin: 30rpx auto;
+  display: flex;
+}
+.seach-box .seachInput {
+  font-size: 26rpx;
+  height: 70rpx !important;
+  line-height: 70rpx;
+  border: 2rpx solid #eee;
+  box-sizing: border-box;
+  padding:10rpx 20rpx;
+  flex: 2;
+  background-color: #fff;
+  border-radius: 10rpx;
+  text-align: center;
+}
+.seach-box .history {
+  font-size: 26rpx;
+  height: 70rpx !important;
+  line-height: 70rpx;
+  padding: 0;
+  background-color: #baeaef;
+  color: #666666;
+  border: 0;
+  flex: 1;
+  margin-left: 30rpx;
+}
+.tab-main-item {
+  box-sizing: border-box;
+  width: 90%;
+  height: 150rpx;
+  padding: 20rpx;
+  margin: 30rpx auto 0;
+  border-radius: 10rpx;
+  position: relative;
+  padding-left: 150rpx;
+  background-color: #fff;
+}
+.item-header {
+  position: absolute;
+  left: 20rpx;
+  top: 20rpx;
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 100%;
+  background-color: #5bb590;
+  color: #fff;
+  line-height: 106rpx;
+  text-align: center;
+  font-size: 40rpx;
+}
+.tab-main-item h3 {
+  font-size: 36rpx;
+  display: block;
+  margin-bottom: 30rpx;
+}
+.theStatus {
+  position: absolute;
+  right: 30rpx;
+  top: 20rpx;
+}
+.tab-main-item p {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.tab-main-item .remove {
+  position: absolute;
+  right: 20rpx;
+  top: 40rpx;
+  border: none;
+  font-size: 30rpx;
+  z-index: 2;
+}

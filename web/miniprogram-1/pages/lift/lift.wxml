@@ -1,0 +1,88 @@
+<!-- 头部 -->
+<view class="header-box">
+  <!-- 个人信息 -->
+  <!-- 没有绑定过家庭组 -->
+  <block wx:if="{{!isJoin}}">
+    <view class="user">
+      <view class="user-pic">
+        <image src="{{userData.AvatarUrl}}"></image>
+      </view>
+    </view>
+    <view class="btn_name" wx:if="{{userData.NickName=='微信用户'}}">
+      <button class="getinfo" bindtap="getUserProfile">获取头像昵称</button>
+    </view>
+    <view wx:else class="user_name">
+      <span>你好,</span>
+      <span class="text-name">{{userData.NickName}}</span>
+    </view>
+  </block>
+  <!-- 已加入家庭组样式 -->
+  <block wx:else>
+    <view class="join-user">
+    </view>
+    <view class="join-img">
+      <image src="{{userData.AvatarUrl}}"></image>
+    </view>
+    <view class="hello">
+      <span>你好,</span>
+      <span class="text-name">{{userInfo.FullName}}</span>
+    </view>
+    <!-- <view class="option">
+      <view class="select_box">
+        <view class='select' catchtap='selectTaps'>
+          <text class='select_text'>{{userInfo.Person.UserGroupName[indexs]}}</text>
+          <view class="select_img" wx:if="{{opt}}">
+            <image src='/static/images/next.png'  class='com-sImg'  animation="{{animationData}}"></image>
+          </view>
+          <view class="select_img sele-1" wx:else>
+            <image src='/static/images/next.png'  class='com-sImg'  animation="{{animationData}}"></image>
+          </view>
+        </view>
+        <view class='option_box' style='height:{{shows?(userInfo.Person.UserGroupName.length>5?180:userInfo.Person.UserGroupName.length*50):0}}rpx;'>
+          <view class='option-text' style='{{indexs==userInfo.Person.UserGroupName.length-1&&"border:0;"}}' wx:for='{{userInfo.Person.UserGroupName}}'
+            wx:key='this' data-index='{{index}}' catchtap='optionTaps'>{{item}}</view>
+        </view>
+      </view>
+    </view> -->
+  </block>
+  <view>
+  </view>
+</view>
+<!-- 圆角弧度 -->
+<view class="radius">
+</view>
+<!-- 未加入家庭组 -->
+<view class="no-family" wx:if="{{!isJoin}}">
+  <view class="no-family-box">
+    <view class="no-img">
+      <image src="/static/images/zu77.png"></image>
+    </view>
+    <view class="no-text-1"><span>您还未加入任何家庭组哦!</span></view>
+    <view class="no-text-2"><span>请联系物业或扫码加入</span></view>
+    <view class="saoyisao"  bindtap='getScancode'>
+      扫一扫
+    </view>
+    <view class="saoyisao bangzhu"  bindtap='toHelp'>
+      用户帮助
+    </view>
+  </view>
+</view>
+<!-- 已加入家庭组 -->
+<view wx:else class="family">
+  <view class="family-center">
+    <view class="two-code">
+      <view class="two-code-img">
+        <canvas style="width: 450rpx; height: 450rpx;" canvas-id="myQrcode"></canvas>
+      </view>
+      <view class="canvas-box">
+  </view>
+      <view class="yichang">
+        <span>二维码异常 ? 戳一戳刷新二维码</span>
+      </view>
+    </view>
+    <!-- 按钮 -->
+    <view class="cyc" bindtap="searchCode">
+      戳一戳
+    </view>
+  </view>
+</view>

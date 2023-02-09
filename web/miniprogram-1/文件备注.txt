@@ -1,0 +1,7 @@
+visitor_info 	访客请求信息信息
+add_visitor 	新增访客页面
+visitor_details 	访客信息详情
+edit_visitor 	访客信息详情进入的修改访客信息
+approval_visitor      审批访客信息和修改访客信息结构大体一致可以放在一个页面做
+visitor_history 	访客处理历史
+visitor_history_info  访客历史处理详情 
